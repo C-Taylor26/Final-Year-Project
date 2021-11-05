@@ -26,12 +26,14 @@ def getAccount():
     data = r.json()
     return data
 
-#Gets account equity
-
+#Gets account equity, returns Float value
+def getEquity():
+    data = getAccount()
+    equity = float(data['equity'])
+    return equity
 
 #Gets bar sets (Candle stick cart)
 
 
 #Gets open positions for a given stock
-
 

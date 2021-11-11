@@ -1,5 +1,5 @@
-## AI Stock Market Trading
-#Final Year Project
+# AI Stock Market Trading
+## Final Year Project
 
 Created by: Callum Taylor 
 
@@ -11,7 +11,7 @@ Created by: Callum Taylor
 ## Resources 
 - Alpaca Trading 
   - https://alpaca.markets/
--Quant Connect
+- Quant Connect
   - https://www.quantconnect.com/
 
 ## Technologies

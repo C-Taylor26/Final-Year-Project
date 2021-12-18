@@ -68,7 +68,7 @@ def getCandle(symbol, date):
     r = api.get_barset(symbol, "5Min", start=start, end=end)
     data = r._raw
 
-    data = data["TSLA"][1:]
+    data = data[symbol][1:]
     return data
 
 #Gets open positions for a given stock

@@ -9,29 +9,43 @@
 ##### 
 
 # 
-# Data Points [Average 5m/30m/1h Change, Days change, Average 5m/30m/1h volume, days Volume, 20/50/200 MA change/end, days candle]
+# Data Points [5min average Change and Volume, total change and volume, Ma change, MA start, day start]
 # 
 
+from alpaca_api import getCandle
+
 class daysDataObj:
-    def __init__(self, changeData, volumeData, maData, dayCandle):
-        self.changeData = changeData
-        self.volumeData = volumeData
-        self.maData = maData
-        self.dayCandle = dayCandle
+    def __init__(self, fiveMinChange, fiveMinVolume, daysChange, daysVolume, daysOpen):
+        self.fiveMinChange = fiveMinChange
+        self.fiveMinVolume = fiveMinVolume
+        self.daysChange = daysChange
+        self.daysVolume = daysVolume
+        self.daysOpen = daysOpen
 
-class dataTimeFrameObj:
-    def __init__(self, fiveMin, thirtyMin, oneHour, day):
-        self.fiveMin = fiveMin
-        self.thirtyMin = thirtyMin
-        self.oneHour = oneHour
-        self.day = day
+def getDaysData(symbol, date):
+    
+    data = getCandle(symbol, date)
 
-class maDataObj:
-    def __init__(self, twentyChange, fiftyChange, twoHunderedChange, twentyEnd, fiftyEnd, twoHunderedEnd):
-        self.twentyChange = twentyChange
-        self.fiftyChange = fiftyChange
-        self.twoHunderedChange = twoHunderedChange
-        self.twentyEnd = twentyEnd
-        self.fiftyEnd = fiftyEnd
-        self.twoHunderedEnd = twoHunderedEnd
-        
+    daysOpen = data[0]['o']
+
+    change = 0
+    volume = 0
+
+    for bar in data:
+        change += (float(bar['c']) / float(bar['o']) -1)
+        volume += bar['v']
+
+    averageChange = change / 78
+    averageVolume = volume / 78
+
+    daysData = daysDataObj(averageChange, averageVolume, change, volume, daysOpen)
+    print (vars(daysData))
+
+stocks = ["AAPL", "TSLA", "NFLX", "FB"]
+dates = ["14-12-2021", "15-12-2021", "16-12-2021"]
+for symbol in stocks:
+    for date in dates:
+        getDaysData(symbol, date)
+    
+
+

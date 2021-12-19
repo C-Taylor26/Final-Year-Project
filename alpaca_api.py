@@ -76,5 +76,3 @@ def getMA(symbol, timeframe, end):
     return average
 
 #Gets open positions for a given stock
-
-print(getMA("TSLA", 20, "2021-12-13T16:00:00Z"))

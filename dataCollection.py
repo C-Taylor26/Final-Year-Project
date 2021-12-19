@@ -35,8 +35,8 @@ def getDaysData(symbol, date):
         change += (float(bar['c']) / float(bar['o']) -1)
         volume += bar['v']
 
-    averageChange = change / 78
-    averageVolume = volume / 78
+    averageChange = change / len(data)
+    averageVolume = volume / len(data)
 
     daysData = daysDataObj(averageChange, averageVolume, change, volume, daysOpen)
     print (vars(daysData))

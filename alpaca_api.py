@@ -56,15 +56,7 @@ def getEquity():
     return equity
 
 #Gets bar sets (Candle stick cart)
-def getCandle(symbol, date):
-    day = int(date.split('-')[0])
-    month = int(date.split('-')[1])
-    year = int(date.split('-')[2])
-
-    now = datetime.datetime.now()
-    start = now.replace(year=year, month=month, day=day, hour = 0, minute=0, second=0, microsecond=0).isoformat() + "Z"
-    end = now.replace(year=year, month=month, day=day, hour = 23, minute=59, second=59, microsecond=0).isoformat() + "Z"
-
+def getBarSet(symbol, start, end):
     r = api.get_barset(symbol, "5Min", start=start, end=end)
     data = r._raw
 

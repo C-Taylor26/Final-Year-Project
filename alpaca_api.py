@@ -71,4 +71,18 @@ def getCandle(symbol, date):
     data = data[symbol][1:]
     return data
 
+#Gets Moving Average for a given Timeframe
+def getMA(symbol, timeframe, end):
+    total =0
+
+    r = api.get_barset(symbol, "5Min", limit=timeframe, end=end)
+    data = r._raw
+
+    for candle in data[symbol]:
+        total += candle['c']
+    average = total / timeframe
+    return average
+
 #Gets open positions for a given stock
+
+print(getMA("TSLA", 20, "2021-12-13T16:00:00Z"))

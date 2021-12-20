@@ -23,7 +23,7 @@ from os import write
 from alpaca_api import getBarSet, getMA
 
 class daysDataObj:
-    def __init__(self, symbol, fiveMinChange, fiveMinVolume, daysChange, daysVolume, daysOpen, openMovingAverages, movingAverageChange, nextDayChange):
+    def __init__(self, symbol, fiveMinChange, fiveMinVolume, daysChange, daysVolume, daysOpen, openMovingAverages, movingAverageChange):
         self.symbol = symbol
         self.fiveMinChange = fiveMinChange
         self.fiveMinVolume = fiveMinVolume
@@ -32,7 +32,6 @@ class daysDataObj:
         self.daysOpen = daysOpen
         self.openMovingAverages = openMovingAverages
         self.movingAverageChange = movingAverageChange
-        self.nextDayChange = nextDayChange
 
 class movingAverageObj:
     def __init__(self, twenty, fifty, twoHundered):
@@ -52,6 +51,8 @@ def getDaysData(symbol, date):
         data = getBarSet(symbol, start, end)
 
         daysOpen = data[0]['o']
+        daysClose = data[-1]['c']
+        daysChange = (daysClose / daysOpen)-1
 
         change = 0
         volume = 0
@@ -78,18 +79,11 @@ def getDaysData(symbol, date):
 
         newStart, newEnd = sanatiseDate(newDate.strftime("%d-%m-%Y"))
 
-        r = getBarSet(symbol, newStart, newEnd)
-    
-    
-        nextDayOpen = float(r[0]["o"])
-        nextDayClose = float(r[-1]["c"])
-        nextDayChange = (nextDayClose / nextDayOpen) - 1
-
-        daysData = daysDataObj(symbol, averageChange, averageVolume, change, volume, daysOpen, openMovingAverages, movingAveragesChange, nextDayChange)
+        daysData = daysDataObj(symbol, averageChange, averageVolume, daysChange, volume, daysOpen, openMovingAverages, movingAveragesChange)
     except:
         openMovingAverages = movingAverageObj(0,0,0)
         movingAveragesChange = movingAverageObj(0,0,0)
-        daysData = daysDataObj("NULL", 0, 0, 0, 0, 0, openMovingAverages, movingAveragesChange, 0)
+        daysData = daysDataObj("NULL", 0, 0, 0, 0, 0, openMovingAverages, movingAveragesChange)
     return daysData
 
 def sanatiseDate(date):
@@ -98,8 +92,8 @@ def sanatiseDate(date):
     year = int(date.split('-')[2])
 
     now = datetime.datetime.now()
-    start = now.replace(year=year, month=month, day=day, hour = 0, minute=0, second=0, microsecond=0).isoformat() +"Z"
-    end = now.replace(year=year, month=month, day=day, hour = 23, minute=59, second=59, microsecond=0).isoformat()+"Z"
+    start = now.replace(year=year, month=month, day=day, hour = 14, minute=30, second=0, microsecond=0).isoformat() +"Z"
+    end = now.replace(year=year, month=month, day=day, hour = 21, minute=0, second=0, microsecond=0).isoformat()+"Z"
     return start, end
 
 def writeCSV(data):
@@ -118,8 +112,7 @@ def writeCSV(data):
                   "200MA Open",
                   "20MA Change",
                   "50MA Change",
-                  "200MA Change",
-                  "Next Day Change"]
+                  "200MA Change"]
         writer.writerow(header)
     else:
         printData = [data.symbol,
@@ -133,8 +126,7 @@ def writeCSV(data):
                      data.openMovingAverages.twoHundered,
                      data.movingAverageChange.twenty,
                      data.movingAverageChange.fifty,
-                     data.movingAverageChange.twoHundered,
-                     data.nextDayChange]       
+                     data.movingAverageChange.twoHundered]       
         writer.writerow(printData)
     f.close()
 

@@ -60,7 +60,7 @@ def getBarSet(symbol, start, end):
     r = api.get_barset(symbol, "5Min", start=start, end=end)
     data = r._raw
 
-    data = data[symbol][1:]
+    data = data[symbol]
     return data
 
 #Gets Moving Average for a given Timeframe

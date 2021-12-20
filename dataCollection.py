@@ -42,48 +42,54 @@ class movingAverageObj:
 
 def getDaysData(symbol, date):
     start, end = sanatiseDate(date)
+    try:
+        openMovingAverages = movingAverageObj(getMA(symbol, 20, start), getMA(symbol, 50, start), getMA(symbol, 200, start))
+        closeMovingAverages = movingAverageObj(getMA(symbol, 20, end), getMA(symbol, 50, end), getMA(symbol, 200, end))
+        movingAveragesChange = movingAverageObj((closeMovingAverages.twenty/openMovingAverages.twenty)-1,
+                                                (closeMovingAverages.fifty/openMovingAverages.fifty)-1,
+                                                (closeMovingAverages.twoHundered/openMovingAverages.twoHundered)-1)
+        
+        data = getBarSet(symbol, start, end)
 
-    openMovingAverages = movingAverageObj(getMA(symbol, 20, start), getMA(symbol, 50, start), getMA(symbol, 200, start))
-    closeMovingAverages = movingAverageObj(getMA(symbol, 20, end), getMA(symbol, 50, end), getMA(symbol, 200, end))
-    movingAveragesChange = movingAverageObj((closeMovingAverages.twenty/openMovingAverages.twenty)-1,
-                                            (closeMovingAverages.fifty/openMovingAverages.fifty)-1,
-                                            (closeMovingAverages.twoHundered/openMovingAverages.twoHundered)-1)
+        daysOpen = data[0]['o']
+
+        change = 0
+        volume = 0
+
+        for bar in data:
+            change += (float(bar['c']) / float(bar['o']) -1)
+            volume += bar['v']
+
+        averageChange = change / len(data)
+        averageVolume = volume / len(data)
+
+        splitDate = end.split("-")
+        day = int(splitDate[2].split("T")[0])
+        month = int(splitDate[1])
+        year = int(splitDate[0])
+
+        newDate = datetime.datetime(day=day, month=month, year=year)
+        if newDate.weekday() == 5:
+            newDate = newDate + datetime.timedelta(days=2)
+        elif newDate.weekday() == 4:
+            newDate = newDate + datetime.timedelta(days=3)
+        else:
+            newDate = newDate + datetime.timedelta(days=1)
+
+        newStart, newEnd = sanatiseDate(newDate.strftime("%d-%m-%Y"))
+
+        r = getBarSet(symbol, newStart, newEnd)
     
-    data = getBarSet(symbol, start, end)
-
-    daysOpen = data[0]['o']
-
-    change = 0
-    volume = 0
-
-    for bar in data:
-        change += (float(bar['c']) / float(bar['o']) -1)
-        volume += bar['v']
-
-    averageChange = change / len(data)
-    averageVolume = volume / len(data)
-
-    splitDate = end.split("-")
-    day = int(splitDate[2].split("T")[0])
-    month = int(splitDate[1])
-    year = int(splitDate[0])
-
-    newDate = datetime.datetime(day=day, month=month, year=year)
-    if newDate.weekday == 5:
-        newDate = newDate + datetime.timedelta(days=2)
-    else:
-        newDate = newDate + datetime.timedelta(days=1)
-
-    newStart, newEnd = sanatiseDate(newDate.strftime("%d-%m-%Y"))
-
-    r = getBarSet(symbol, newStart, newEnd)
     
-    nextDayOpen = float(r[0]["o"])
-    nextDayClose = float(r[-1]["c"])
-    nextDayChange = (nextDayClose / nextDayOpen) - 1
+        nextDayOpen = float(r[0]["o"])
+        nextDayClose = float(r[-1]["c"])
+        nextDayChange = (nextDayClose / nextDayOpen) - 1
 
-    daysData = daysDataObj(symbol, averageChange, averageVolume, change, volume, daysOpen, openMovingAverages, movingAveragesChange, nextDayChange)
-    
+        daysData = daysDataObj(symbol, averageChange, averageVolume, change, volume, daysOpen, openMovingAverages, movingAveragesChange, nextDayChange)
+    except:
+        openMovingAverages = movingAverageObj(0,0,0)
+        movingAveragesChange = movingAverageObj(0,0,0)
+        daysData = daysDataObj("NULL", 0, 0, 0, 0, 0, openMovingAverages, movingAveragesChange, 0)
     return daysData
 
 def sanatiseDate(date):
@@ -132,13 +138,24 @@ def writeCSV(data):
         writer.writerow(printData)
     f.close()
 
+def collectData(symbol, startDate, endDate):
+    i = 0
+    date = startDate
+    while date != endDate:
+        date = startDate + datetime.timedelta(days=i)
+        if date.weekday() > 4:
+            i +=1
+        else:
+            daysData = getDaysData(symbol, date.strftime("%d-%m-%Y"))
+            writeCSV(daysData)
+            i +=1
+        print(i)
+
+startDate = datetime.datetime(day=16, month=12, year=2020)
+endDate = datetime.datetime(day=16, month=12, year=2021)
+
 stocks = ["AAPL", "TSLA", "NFLX", "FB"]
-dates = ["14-12-2021", "15-12-2021", "16-12-2021"]
 writeCSV(0)
+
 for symbol in stocks:
-    for date in dates:
-        daysData = getDaysData(symbol, date)
-        writeCSV(daysData)
-    
-
-
+    collectData(symbol, startDate, endDate)

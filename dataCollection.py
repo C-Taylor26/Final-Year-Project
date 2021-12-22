@@ -17,7 +17,6 @@ import datetime
 
 #importing csv module
 import csv
-from os import write
 
 #Importing functions from API module
 from alpaca_api import getBarSet, getMA

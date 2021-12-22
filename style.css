@@ -1,0 +1,16 @@
+.column {
+    float: left;
+    padding: 10px;
+}
+
+.left {
+    width: 58%;
+}
+
+.right {
+    width: 39%;
+}
+
+.stats {
+    font-size: 400%;
+}

@@ -1,16 +1,3 @@
-######
-# 
-# Collects data points from a given day 
-#
-# To be used as a starting point for older data that will be used in training
-# 
-# later used each day to keep data up to date
-#   
-##### 
-
-# 
-# Data Points [5min average Change and Volume, total change and volume, Ma change, MA start, day start]
-# 
 
 #Importing Datetime module
 import datetime
@@ -21,6 +8,7 @@ import csv
 #Importing functions from API module
 from alpaca_api import getBarSet, getMA
 
+#Data object Class
 class daysDataObj:
     def __init__(self, symbol, fiveMinChange, fiveMinVolume, daysChange, daysVolume, daysOpen, openMovingAverages, movingAverageChange):
         self.symbol = symbol
@@ -32,12 +20,14 @@ class daysDataObj:
         self.openMovingAverages = openMovingAverages
         self.movingAverageChange = movingAverageChange
 
+#Class for moving Avergaes
 class movingAverageObj:
     def __init__(self, twenty, fifty, twoHundered):
         self.twenty = twenty
         self.fifty = fifty
         self.twoHundered = twoHundered
 
+#Function to collect all relevant data from given day
 def getDaysData(symbol, date):
     start, end = sanatiseDate(date)
     try:
@@ -85,6 +75,7 @@ def getDaysData(symbol, date):
         daysData = daysDataObj("NULL", 0, 0, 0, 0, 0, openMovingAverages, movingAveragesChange)
     return daysData
 
+#Converts inputted string to a valid datatime to be used by the API
 def sanatiseDate(date):
     day = int(date.split('-')[0])
     month = int(date.split('-')[1])
@@ -95,6 +86,7 @@ def sanatiseDate(date):
     end = now.replace(year=year, month=month, day=day, hour = 21, minute=0, second=0, microsecond=0).isoformat()+"Z"
     return start, end
 
+#Writes each line of data to csv file
 def writeCSV(data):
     f = open('csvData.csv', 'a', newline="")
     writer = csv.writer(f)
@@ -129,6 +121,7 @@ def writeCSV(data):
         writer.writerow(printData)
     f.close()
 
+#Collects data over a given time period
 def collectData(symbol, startDate, endDate):
     i = 0
     date = startDate
@@ -140,13 +133,14 @@ def collectData(symbol, startDate, endDate):
             daysData = getDaysData(symbol, date.strftime("%d-%m-%Y"))
             writeCSV(daysData)
             i +=1
-        print(i)
+        print("{} - {}".format(i, j))
 
 startDate = datetime.datetime(day=16, month=12, year=2020)
 endDate = datetime.datetime(day=16, month=12, year=2021)
 
 stocks = ["AAPL", "TSLA", "NFLX", "FB"]
 writeCSV(0)
-
+j = 0
 for symbol in stocks:
+    j +=1
     collectData(symbol, startDate, endDate)

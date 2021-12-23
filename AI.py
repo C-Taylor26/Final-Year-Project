@@ -3,12 +3,13 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
 import numpy as np
 import pandas as pd
+
 def demoFunc():
     data = fetch_california_housing()
     inputs = data["data"]
     targets = data["target"]
 
-    scaler = StandardScaler()
+    scaler = StandardSaler()
     scaled = scaler.fit_transform(inputs)
 
     regressor = MLPRegressor()
@@ -20,7 +21,7 @@ def demoFunc():
 
 def newFunc():
     df = pd.read_csv("csvData.csv")
-    print (df.to_string())
+    pass
 
 
 newFunc()

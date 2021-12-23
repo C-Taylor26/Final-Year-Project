@@ -88,7 +88,7 @@ def sanatiseDate(date):
 
 #Writes each line of data to csv file
 def writeCSV(data):
-    f = open('csvData.csv', 'a', newline="")
+    f = open('csvData1.csv', 'a', newline="")
     writer = csv.writer(f)
 
     if data == 0:

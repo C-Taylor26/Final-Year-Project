@@ -88,7 +88,7 @@ def sanatiseDate(date):
 
 #Writes each line of data to csv file
 def writeCSV(data):
-    f = open('dataAll.csv', 'a', newline="")
+    f = open('dataAll19-21.csv', 'a', newline="")
     writer = csv.writer(f)
 
     if data == 0:
@@ -133,7 +133,7 @@ def collectData(symbol, startDate, endDate):
             daysData = getDaysData(symbol, date.strftime("%d-%m-%Y"))
             writeCSV(daysData)
             i +=1
-        print("{} - {}".format(i, j))
+        print("{:.2f}%".format(((i+j)/1464)*100))
 
 startDate = datetime.datetime(day=16, month=12, year=2019)
 endDate = datetime.datetime(day=16, month=12, year=2021)
@@ -142,5 +142,5 @@ stocks = ["AAPL", "TSLA", "NFLX", "FB"]
 writeCSV(0)
 j = 0
 for symbol in stocks:
-    j +=1
     collectData(symbol, startDate, endDate)
+    j += 366

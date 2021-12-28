@@ -139,7 +139,7 @@ def collectData(symbol, startDate, endDate):
             writeCSV(daysData)
             i +=1
         clear()
-        print("{:.2f}%".format(((i+j)/1464)*100))
+        print("{:.2f}%".format(((i+j)/2,928)*100))
 
 startDate = datetime.datetime(day=16, month=12, year=2019)
 endDate = datetime.datetime(day=16, month=12, year=2021)

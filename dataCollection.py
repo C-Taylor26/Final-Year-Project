@@ -6,7 +6,7 @@ import datetime
 import csv
 
 #Importing functions from API module
-from alpaca_api import getBarSet, getMA
+from alpaca_api import getBarSet, getMASet
 
 #For Console Clearing
 import os
@@ -36,8 +36,10 @@ class movingAverageObj:
 def getDaysData(symbol, date):
     start, end = sanatiseDate(date)
     try:
-        openMovingAverages = movingAverageObj(getMA(symbol, 20, start), getMA(symbol, 50, start), getMA(symbol, 200, start))
-        closeMovingAverages = movingAverageObj(getMA(symbol, 20, end), getMA(symbol, 50, end), getMA(symbol, 200, end))
+        twenty, fifty, twoHundered = getMAs(symbol, start)
+        openMovingAverages = movingAverageObj(twenty, fifty, twoHundered)
+        twenty, fifty, twoHundered = getMAs(symbol, end)
+        closeMovingAverages = movingAverageObj(twenty, fifty, twoHundered)
         movingAveragesChange = movingAverageObj((closeMovingAverages.twenty/openMovingAverages.twenty)-1,
                                                 (closeMovingAverages.fifty/openMovingAverages.fifty)-1,
                                                 (closeMovingAverages.twoHundered/openMovingAverages.twoHundered)-1)
@@ -139,7 +141,22 @@ def collectData(symbol, startDate, endDate):
             writeCSV(daysData)
             i +=1
         clear()
-        print("{:.2f}%".format(((i+j)/2,928)*100))
+        print("{:.2f}%".format(((i+j)/2928)*100))
+
+def getMAs(symbol, end):
+    data = getMASet(symbol, 200, end)
+
+    MAs = [data[-20:], data[-50:], data]
+
+    calculated = []
+    for timeframe in MAs:
+        total = 0
+        for bar in timeframe:
+            total += bar['c']
+        average = total/len(timeframe)
+        calculated.append(average)
+        
+    return calculated[0], calculated[1], calculated[2]
 
 startDate = datetime.datetime(day=16, month=12, year=2019)
 endDate = datetime.datetime(day=16, month=12, year=2021)

@@ -64,15 +64,14 @@ def getBarSet(symbol, start, end):
     return data
 
 #Gets Moving Average for a given Timeframe
-def getMA(symbol, timeframe, end):
+def getMASet(symbol, timeframe, end):
     total =0
 
     r = api.get_barset(symbol, "5Min", limit=timeframe, end=end)
     data = r._raw
 
-    for candle in data[symbol]:
-        total += candle['c']
-    average = total / timeframe
-    return average
+    data = data[symbol]
+
+    return data
 
 #Gets open positions for a given stock

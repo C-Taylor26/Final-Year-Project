@@ -88,22 +88,22 @@ def sanatiseDate(date):
 
 #Writes each line of data to csv file
 def writeCSV(data):
-    f = open('csvData1.csv', 'a', newline="")
+    f = open('dataAll.csv', 'a', newline="")
     writer = csv.writer(f)
 
     if data == 0:
         header = ["Symbol",
-                  "Five Minute Change", 
-                  "Average Volume", 
-                  "Total Volume", 
-                  "Days Open", 
-                  "Days Change", 
-                  "20MA Open",
-                  "50MA Open",
-                  "200MA Open",
-                  "20MA Change",
-                  "50MA Change",
-                  "200MA Change"]
+                  "Five_Minute_Change", 
+                  "Average_Volume", 
+                  "Total_Volume", 
+                  "Days_Open", 
+                  "Days_Change", 
+                  "20MA_Open",
+                  "50MA_Open",
+                  "200MA_Open",
+                  "20MA_Change",
+                  "50MA_Change",
+                  "200MA_Change"]
         writer.writerow(header)
     else:
         printData = [data.symbol,
@@ -135,7 +135,7 @@ def collectData(symbol, startDate, endDate):
             i +=1
         print("{} - {}".format(i, j))
 
-startDate = datetime.datetime(day=16, month=12, year=2020)
+startDate = datetime.datetime(day=16, month=12, year=2019)
 endDate = datetime.datetime(day=16, month=12, year=2021)
 
 stocks = ["AAPL", "TSLA", "NFLX", "FB"]

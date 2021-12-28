@@ -1,4 +1,5 @@
 from ctypes import DEFAULT_MODE
+from hashlib import new
 from sklearn.datasets import fetch_california_housing
 from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
@@ -25,7 +26,9 @@ def newFunc():
     inputs = pd.read_csv("csvData - Copy.csv", usecols=fields)
     fields = ["Next_Days_Change"]
     targets = pd.read_csv("csvData - Copy.csv", usecols=fields)
-    print ("Data Read")
+
+    inputs = inputs.values
+    targets = targets.values
 
     scaler = StandardScaler()
     scaled = scaler.fit_transform(inputs)

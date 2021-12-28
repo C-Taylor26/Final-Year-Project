@@ -8,6 +8,11 @@ import csv
 #Importing functions from API module
 from alpaca_api import getBarSet, getMA
 
+#For Console Clearing
+import os
+clear = lambda: os.system('cls')
+clear()
+
 #Data object Class
 class daysDataObj:
     def __init__(self, symbol, fiveMinChange, fiveMinVolume, daysChange, daysVolume, daysOpen, openMovingAverages, movingAverageChange):
@@ -133,6 +138,7 @@ def collectData(symbol, startDate, endDate):
             daysData = getDaysData(symbol, date.strftime("%d-%m-%Y"))
             writeCSV(daysData)
             i +=1
+        clear()
         print("{:.2f}%".format(((i+j)/1464)*100))
 
 startDate = datetime.datetime(day=16, month=12, year=2019)

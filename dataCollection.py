@@ -141,7 +141,8 @@ def collectData(symbol, startDate, endDate):
             writeCSV(daysData)
             i +=1
         clear()
-        print("{:.2f}%".format(((i+j)/2928)*100))
+        print(i)
+    return i
 
 def getMAs(symbol, end):
     data = getMASet(symbol, 200, end)
@@ -165,5 +166,5 @@ stocks = ["AAPL", "TSLA", "NFLX", "FB"]
 writeCSV(0)
 j = 0
 for symbol in stocks:
-    collectData(symbol, startDate, endDate)
-    j += 366
+    i = collectData(symbol, startDate, endDate)
+    j += i

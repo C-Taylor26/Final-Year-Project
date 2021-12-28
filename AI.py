@@ -3,6 +3,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
 import numpy as np
 import pandas as pd
+import os.path
 
 def demoFunc():
     data = fetch_california_housing()
@@ -19,12 +20,12 @@ def demoFunc():
 
     pass
 
-def predictAll():
+def predictSingle(stock):
 
-    fields = ["Five_Minute_Change", "Average_Volume", "Days_Change", "20MA_Change", "50MA_Change", "200MA_Change"]
-    inputs = pd.read_csv("dataAll19-21.csv", usecols=fields)
+    fields = ["20MA_Change", "50MA_Change", "200MA_Change"]
+    inputs = pd.read_csv("data"+stock+"19-21.csv", usecols=fields)
     fields = ["Next_Days_Change"]
-    targets = pd.read_csv("dataAll19-21.csv", usecols=fields)
+    targets = pd.read_csv("data"+stock+"19-21.csv", usecols=fields)
 
     inputs = inputs.values
     targets = targets.values
@@ -46,10 +47,20 @@ def predictAll():
             correct +=1
         i +=1
     
-    percent = (correct / i) *100
+    percent = correct / i  
 
+    if os.path.exists('Results.csv'):
+        f = open("Results.csv", "a")
+    else:
+        f = open("Results.csv", "a")
+        f.write("Test_Name, Stock, Total_Days, Correct, Percentage\n")
+
+    f.write("{},{},{},{},{}\n".format(testName, stock, len(targets), correct, percent))
+    f.close()
+    
     print ("Change Direction Correct - {}".format(correct))
     print ("Correct {}% of the time".format(percent))
 
 
-newFunc()
+testName = input("Test Name: ")
+predictSingle("AAPL")

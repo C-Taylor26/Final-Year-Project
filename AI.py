@@ -40,15 +40,19 @@ def predictSingle(stock):
 
     i = 0
     correct = 0
+    score = 0
     for item in outputs:
         if item < 0 and targets[i] < 0:
             correct +=1
         elif item > 0 and targets[i] > 0:
             correct +=1
-        i +=1
-    
-    percent = correct / i  
 
+        if item > 0:
+            score += targets[i]
+        i +=1
+        
+    percent = correct / i  
+    print (score)
     if os.path.exists('Results.csv'):
         f = open("Results.csv", "a")
     else:

@@ -4,7 +4,7 @@ from itertools import permutations
 
 def readData(stock):  
     fields = ["Days_Change","20MA_Change","50MA_Change","200MA_Change","Next_Days_Change"]
-    data = pd.read_csv("data"+stock+"19-21.csv", usecols=fields)
+    data = pd.read_csv("data"+stock+"21-22.csv", usecols=fields)
     data = data.values
     return data
 
@@ -118,11 +118,11 @@ def generateList(numberRange):
     return nums
 
 
-data = readData("FB")
+data = readData("AAPL")
 
 perms = permutations(generateList(10), 4)
 
-bestIndicators = {"daysChange":1,"20MA":1,"50MA":1,"200MA":1}
+bestIndicators = {'daysChange': 1, '20MA': 1, '50MA': 1, '200MA': 1}
 bestStats = permIdicators(data, bestIndicators)
 print ("Benchmark Score: {}".format(bestStats["score"]))
 

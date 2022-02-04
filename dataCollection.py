@@ -95,7 +95,7 @@ def sanatiseDate(date):
 
 #Writes each line of data to csv file
 def writeCSV(data):
-    f = open('dataAll19-21.csv', 'a', newline="")
+    f = open('dataAAPL21-22.csv', 'a', newline="")
     writer = csv.writer(f)
 
     if data == 0:
@@ -159,10 +159,11 @@ def getMAs(symbol, end):
         
     return calculated[0], calculated[1], calculated[2]
 
-startDate = datetime.datetime(day=16, month=12, year=2019)
-endDate = datetime.datetime(day=16, month=12, year=2021)
+startDate = datetime.datetime(day=16, month=12, year=2021)
+endDate = datetime.datetime(day=7, month=1, year=2022)
 
-stocks = ["AAPL", "TSLA", "NFLX", "FB"]
+stocks = ["AAPL"]
+#stocks = ["AAPL", "TSLA", "NFLX", "FB"]
 writeCSV(0)
 j = 0
 for symbol in stocks:

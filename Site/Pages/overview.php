@@ -1,4 +1,12 @@
 <HTML>
+
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<!-- JS Charts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
 <head>
     <title>Dashboard</title>
     <!-- BANNER -->
@@ -34,6 +42,7 @@
         </div>
         <div id="b-r">
             <!--button to other page-->
+            <button type="button" class="btn btn-outline-warning" style="width: 90%">Monthly Data</button>
         </div>
     </div>
 

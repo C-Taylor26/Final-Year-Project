@@ -1,0 +1,22 @@
+header {
+    display: flex;
+    align-items: center;
+    padding: 30px;
+}
+
+.nav-bar {
+    list-style: none;
+}
+
+.nav-bar li {
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.nav-bar li a{
+    transition: all 0.3s ease 0s;
+}
+
+.nav-bar li a:hover{
+    color: #000000
+}

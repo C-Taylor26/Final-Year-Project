@@ -1,36 +1,70 @@
 <HTML>
 
 <!-- Bootstrap -->
-<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
--->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 <!-- JS Charts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 <head>
+    <title>Dashboard</title>
+
+    <style>
+        .nav-bar {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .nav-bar a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .nav-bar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .nav-bar a.active {
+            background-color: #04AA6D;
+            color: white;
+        }
+        .clock {
+            float: right;
+            padding: 0 3%;
+        }
+        .banner-title {
+            float: left;
+            padding 0 3% 0 0;
+            background-color: #04AA6D;
+            color: white;
+        }
+
+    </style>
     <link rel="stlyesheet" href="../CSS/banner.css"
 
-    <title>Dashboard</title>
+
     <!-- BANNER -->
 </head>
 
 <body>
-    <header>
-        <nav>
-            <ul class="nav-bar">
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Monthly Data</a></li>
-            </ul>
-        </nav>
-
-
-    </header>
+    <div class="nav-bar">
+        <a class="banner-title">AI Stock Trader</a>
+        <a href="#">Dashboard</a>
+        <a href="#">Monthly Data</a>
+        <h1 id="dateTime" class="clock"></h1>
+    </div>
 
 
 
     <div id="content">
         <div id="left" style="float: left;width: 70%; padding: 1%;">
             <div id="t-l">
-                <h1 id="dateTime"></h1>
+                <!--<h1 id="dateTime"></h1>-->
                 <h2 id="change" style="float: right">Change: 50% | $100</h2>
             </div>
             <div id="m-l">

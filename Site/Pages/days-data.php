@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 <head>
-    <title>[Month] Data</title>
+    <title>[Days] Data</title>
 
     <style>
         .nav-bar {
@@ -52,33 +52,20 @@
 </head>
 
 <body>
-    <div class="nav-bar">
-        <a class="banner-title">AI Stock Trader</a>
-        <a class="item" href="../Pages/overview.php">Dashboard</a>
-        <a class="item" href="../Pages/monthly-data.php">Monthly Data</a>
-        <h1 id="dateTime" class="clock"></h1>
+<div class="nav-bar">
+    <a class="banner-title">AI Stock Trader</a>
+    <a class="item" href="../Pages/overview.php">Dashboard</a>
+    <a class="item" href="../Pages/monthly-data.php">Monthly Data</a>
+    <h1 id="dateTime" class="clock"></h1>
+</div>
+
+<div id="content">
+    <div id="top">
+        <!-- Days change -->
+    </div>
+    <div id="middle">
+        <!-- Table - days trades -->
     </div>
 
-    <div id="content">
-        <div id="left">
-            <div id="t-l">
-                <!-- Month Selector -->
-            </div>
-
-            <div id="m-l">
-                <!-- Table - Day Data -->
-            </div>
-        </div>
-
-        <div id="right">
-            <div id="t-r">
-                <!-- Month Change -->
-            </div>
-
-            <div id="m-r">
-                <!-- Month Chart -->
-            </div>
-        </div>
-
-    </div>
+</div>
 </body>

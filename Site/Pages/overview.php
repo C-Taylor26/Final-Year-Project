@@ -48,10 +48,7 @@
         }
 
     </style>
-    <link rel="stlyesheet" href="../CSS/banner.css"
 
-
-    <!-- BANNER -->
 </head>
 
 <body>

@@ -15,7 +15,7 @@
             background-color: #333;
         }
 
-        .nav-bar a {
+        .nav-bar a.item {
             float: left;
             color: #f2f2f2;
             text-align: center;
@@ -24,7 +24,7 @@
             font-size: 17px;
         }
 
-        .nav-bar a:hover {
+        .nav-bar a.item:hover {
             background-color: #ddd;
             color: black;
         }
@@ -39,9 +39,12 @@
         }
         .banner-title {
             float: left;
-            padding 0 3% 0 0;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
             background-color: #04AA6D;
-            color: white;
         }
 
     </style>
@@ -54,8 +57,8 @@
 <body>
     <div class="nav-bar">
         <a class="banner-title">AI Stock Trader</a>
-        <a href="#">Dashboard</a>
-        <a href="#">Monthly Data</a>
+        <a class="item" href="../Pages/overview.php">Dashboard</a>
+        <a class="item" href="../Pages/monthly-data.php">Monthly Data</a>
         <h1 id="dateTime" class="clock"></h1>
     </div>
 

@@ -72,7 +72,7 @@ def getDaysData(date):
 
         nextDayData = getBarSet(stock, nextDayStart, nextDayEnd)
 
-        if len(data) != 0:
+        if len(nextDayData) != 0:
             open = nextDayData[0]['o']
             close = nextDayData[-1]['c']
             nextDayChange = (float(close)/float(open)-1)
@@ -99,6 +99,7 @@ def getMAs(end):
         for bar in timeframe:
             total += bar['c']
         average = total/len(timeframe)
+        average = round(average, 2)
         calculated.append(average)
         
     return calculated[0], calculated[1], calculated[2]
@@ -122,7 +123,6 @@ def getData():
         #0 returned for null data (Weekend)
         if data != 0:
             dataUpload(table, data)
-            print ("{} --- {}".format(data.daysOpen, data.date))
             time.sleep(1)
         date += datetime.timedelta(days=1)
 
@@ -137,16 +137,16 @@ def dataUpload(table, data): #Uploads data to given table in database
     oMAs = data.openMovingAverages
     cMAs = data.closeMovingAverages
     MAs = "{}, {}, {}, {}, {}, {}".format(oMAs.twenty, oMAs.fifty, oMAs.twoHundered, cMAs.twenty, cMAs.fifty, cMAs.twoHundered)
-    date = data.date.strftime("%d-%m-%Y")
-    values = "{}, '{}', {}, {}, {}, {}, {}".format(date, data.stock, data.daysVolume, data.daysOpen, data.daysClose, MAs, data.nextDayChange)
+    date = data.date.strftime("%Y-%m-%d")
+    values = "'{}', '{}', {}, {}, {}, {}, {}".format(date, data.stock, data.daysVolume, data.daysOpen, data.daysClose, MAs, data.nextDayChange)
 
     sql = "insert into {} ({}) values ({})".format(table, columns, values)
-    
     upload.execute(sql)
     db.commit()
     db.close()
+    print("{} --- {}".format(table.upper(), date))
 
 
-stock = "TSLA"
+stock = "NFLX"
 
 getData()

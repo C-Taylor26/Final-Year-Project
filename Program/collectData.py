@@ -1,5 +1,8 @@
 #Datetime module
+from calendar import month
 import datetime
+
+from webob import day, year
 
 #Alpaca API functions
 from alpaca_api import getBarSet, getMASet
@@ -45,8 +48,13 @@ def getDaysData(date):
 
     #Days Data
     data = getBarSet(stock, start, end)
-    daysOpen = data[0]['o']
-    daysClose = data[-1]['c']
+
+    #Len 0 when weekend/holiday
+    if len(data) != 0:
+        daysOpen = data[0]['o']
+        daysClose = data[-1]['c']
+    else:
+        return 0
 
     #Days Total Volume
     volume = 0
@@ -72,4 +80,30 @@ def getMAs(end):
         
     return calculated[0], calculated[1], calculated[2]
 
-stock = "PLACEHOLDER"
+def getData():
+    #Block of data (Limiting DB calls and RAM usage)
+    dataBlock = []
+
+    #Training Data ~12 months (31-08-20/15-08-21)
+    #Testing Data 6 Months (15-08-21/15-02-22)
+    startDate = datetime.datetime(year=2020, month =8, day=31)
+    endDate = (datetime.datetime.now() - datetime.timedelta(days=1))
+
+    date = startDate
+    while date < endDate:
+        if len(dataBlock) == 10:
+            dataBlock = []
+            pass #Upload data
+
+        data = getDaysData(date)
+        #0 returned for null data (Weekend)
+        if data != 0:
+            dataBlock.append(data)
+            print ("{} --- {}".format(data.daysOpen, data.date))
+        
+        
+        date += datetime.timedelta(days=1)
+
+stock = "AAPL"
+
+getData()

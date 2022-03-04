@@ -119,7 +119,7 @@
                     </div>
                     <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
-                <button type="button" class="btn btn-warning" style="width:100%">Login</button>
+                <button type="button" class="btn btn-warning" style="width:100%">Create Account</button>
             </form>
 
 

@@ -56,23 +56,25 @@
             <button class="tab" onclick="showContent(event, 'login')" id="default">Login</button>
             <button class="tab" onclick="showContent(event, 'register')">Register</button>
         </div>
+
         <!-- Login Box Tab Contents -->
         <div id="login" class="tabcontent">
             <h1>LOGIN</h1>
             <form>
-                <div class="input-group mb-3">
+                <div class="input-group mb-3"><!-- Email Input -->
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
                     </div>
                     <input type="email" placeholder="someone@email.com" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
 
-                <div class="input-group mb-3">
+                <div class="input-group mb-3"><!-- Password Input -->
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
                     </div>
                     <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
+                <button type="button" class="btn btn-warning" style="width:100%">Login</button>
             </form>
 
 
@@ -82,19 +84,42 @@
         <div id="register" class="tabcontent">
             <h1>REGISTER</h1>
             <form>
-                <div class="input-group mb-3">
+                <div class="input-group mb-3"> <!-- Name Input-->
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Default</span>
+                        <span class="input-group-text" id="inputGroup-sizing-default">First Name</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Last Name</span>
                     </div>
                     <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
 
-                <div class="input-group mb-3">
+                <div class="input-group mb-3"><!-- Email Input -->
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Default</span>
+                        <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
                     </div>
-                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    <input type="email" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                 </div>
+
+                <div class="input-group mb-3"><!-- Password Input -->
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+                    </div>
+                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    <!--<small id="passwordHelpBlock" class="form-text text-muted">
+                        Your password must be 8+ characters long, contain a mix of letters, numbers and special characters.
+                    </small>-->
+                </div>
+
+                <div class="input-group mb-3"><!-- Password Confirm Input -->
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Confirm Password</span>
+                    </div>
+                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <button type="button" class="btn btn-warning" style="width:100%">Login</button>
             </form>
 
 

@@ -2,22 +2,31 @@
 ?>
 <HTML>
     <HEAD>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
         <title>Login</title>
 
         <style>
             .loginBox {
                 overflow: hidden;
-                border: 1px solid #ccc;
                 background-color: #f1f1f1;
+                margin: auto;
+                width: 30%;
+                border: 3px solid #000000;
+                padding: 10px;
+                border-bottom: none;
             }
+
             .loginBox button {
                 background-color: inherit;
-                float: left;
                 border: none;
                 outline: none;
                 cursor: pointer;
                 padding: 14px 16px;
                 transition: 0.3s;
+                margin: auto;
+                width: 49%;
             }
 
             .loginBox button:hover {
@@ -30,27 +39,41 @@
 
             .tabcontent {
                 display: none;
-                padding: 6px 12px;
-                border: 1px solid #ccc;
+                padding: 6px 10px;
+                border: 3px solid #000000;
                 border-top: none;
+                margin: auto;
+                width: 30%;
+                text-align: center;
             }
-
-
         </style>
-
-
 
     </HEAD>
 
     <BODY>
     <div id="main">
-        <div class="loginBox">
+        <div class="loginBox" >
             <button class="tab" onclick="showContent(event, 'login')" id="default">Login</button>
             <button class="tab" onclick="showContent(event, 'register')">Register</button>
         </div>
         <!-- Login Box Tab Contents -->
         <div id="login" class="tabcontent">
             <h1>LOGIN</h1>
+            <form>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
+                    </div>
+                    <input type="email" placeholder="someone@email.com" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+                    </div>
+                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+            </form>
 
 
 
@@ -58,8 +81,21 @@
 
         <div id="register" class="tabcontent">
             <h1>REGISTER</h1>
+            <form>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Default</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
 
-
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Default</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+            </form>
 
 
         </div>

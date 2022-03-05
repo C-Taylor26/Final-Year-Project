@@ -10,6 +10,9 @@ import mysql.connector
 #Alpaca API functions
 from alpaca_api import getBarSet, getMASet
 
+#Hashing Library
+import hashlib
+
 #Data Object
 class daysDataObj:
     def __init__(self, stock, date, daysVolume, daysOpen, daysClose, openMovingAverages, closeMovingAverages, nextDayChange):
@@ -113,11 +116,11 @@ def getData():
 
     date = startDate
     while date < endDate:
-        #Checking Dat range to classify as trainging or testing
+        #Checking Date range to classify as trainging or testing
         if date > trainingEnd:
-            table = "testing_data"
+            table = "testing"
         else:
-            table = "training_data"
+            table = "training"
 
         data = getDaysData(date)
         #0 returned for null data (Weekend)
@@ -127,26 +130,41 @@ def getData():
         date += datetime.timedelta(days=1)
 
 
-def dataUpload(table, data): #Uploads data to given table in database
-    db = mysql.connector.connect(host="localhost", user="root", password="",database="ai-trader-data")
+def dataUpload(datatype, data): #Uploads data to given table in database
+    db = mysql.connector.connect(host="localhost", user="root", password="",database="fyp")
 
     upload = db.cursor()
 
-    columns = "Date, Stock, Volume, Open, Close, 20MA_Open, 50MA_Open, 200MA_Open, 20MA_Close, 50MA_Close, 200MA_Close, Next_Day_Change"
+    columns = "stock, date, volume, open, close, 20ma_open, 50ma_open, 200ma_open, 20ma_close, 50ma_close, 200ma_close, next_day_change, datatype, hash"
     #Formatting Data
     oMAs = data.openMovingAverages
     cMAs = data.closeMovingAverages
     MAs = "{}, {}, {}, {}, {}, {}".format(oMAs.twenty, oMAs.fifty, oMAs.twoHundered, cMAs.twenty, cMAs.fifty, cMAs.twoHundered)
     date = data.date.strftime("%Y-%m-%d")
-    values = "'{}', '{}', {}, {}, {}, {}, {}".format(date, data.stock, data.daysVolume, data.daysOpen, data.daysClose, MAs, data.nextDayChange)
+    values = "'{}', '{}', {}, {}, {}, {}, {}, '{}'".format(data.stock, date, data.daysVolume, data.daysOpen, data.daysClose, MAs, data.nextDayChange, datatype)
 
-    sql = "insert into {} ({}) values ({})".format(table, columns, values)
+    input = "{}, '{}'".format(values, hashlib.sha256(values.encode()).hexdigest())
+
+    sql = "insert into data ({}) values ({})".format(columns, input)
     upload.execute(sql)
     db.commit()
     db.close()
-    print("{} --- {}".format(table.upper(), date))
+    print("{} --- {}".format(stock, date))
 
+def stockUpload(ticker, name):
+    db = mysql.connector.connect(host="localhost", user="root", password="",database="fyp")
+    upload = db.cursor()
 
-stock = "NFLX"
+    columns = "ticker, name"
 
-getData()
+    input = "'{}', '{}'".format(ticker, name)
+    sql = "insert into stocks ({}) values ({})".format(columns, input)
+    upload.execute(sql)
+    db.commit()
+    db.close()
+
+stocks = {"NFLX":"Netflix", "AAPL":"Apple", "SPY":"S&P 500", "AMD":"AMD",}
+for s in stocks:
+    stockUpload(s, stocks[s])
+    stock = s
+    getData()

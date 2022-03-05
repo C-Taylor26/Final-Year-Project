@@ -83,31 +83,31 @@
 
         <div id="register" class="tabcontent">
             <h1>REGISTER</h1>
-            <form>
+            <form action="../PHP/createAccount.php" method="post">
                 <div class="input-group mb-3"> <!-- Name Input-->
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">First Name</span>
                     </div>
-                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="fname">
 
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Last Name</span>
                     </div>
-                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="lname">
                 </div>
 
                 <div class="input-group mb-3"><!-- Email Input -->
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
                     </div>
-                    <input type="email" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    <input type="email" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="email">
                 </div>
 
                 <div class="input-group mb-3"><!-- Password Input -->
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
                     </div>
-                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="pw">
                     <!--<small id="passwordHelpBlock" class="form-text text-muted">
                         Your password must be 8+ characters long, contain a mix of letters, numbers and special characters.
                     </small>-->
@@ -117,9 +117,9 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Confirm Password</span>
                     </div>
-                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="pwCon">
                 </div>
-                <button type="button" class="btn btn-warning" style="width:100%">Create Account</button>
+                <input type="submit" class="btn btn-warning" style="width:100%" value="Register">
             </form>
 
 

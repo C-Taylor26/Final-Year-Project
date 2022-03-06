@@ -7,12 +7,8 @@ if (isset($_GET["error"])){
         echo '<script>alert("Email already in use")</script>';
     }
 }
-
-if (!isset($_SESSION["user"])){
-    header("./index.php");
-}
-
 ?>
+
 <HTML>
     <HEAD>
 
@@ -120,25 +116,28 @@ if (!isset($_SESSION["user"])){
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
                     </div>
-                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="pw">
-                    <!--<small id="passwordHelpBlock" class="form-text text-muted">
-                        Your password must be 8+ characters long, contain a mix of letters, numbers and special characters.
-                    </small>-->
+                    <input type="password" id="pass" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required minlength="8" name="pw">
+                </div>
+                <div style="width: 100%" class="alert alert-warning hidden" id="passwordWarning">
+                    Password must be at least 8 characters long, containing Upper and Lowercase Letters and Numbers
                 </div>
 
                 <div class="input-group mb-3"><!-- Password Confirm Input -->
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Confirm Password</span>
                     </div>
-                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="pwCon">
+                    <input type="password" id="conPass" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="pwCon">
                 </div>
-                <input type="submit" class="btn btn-warning" style="width:100%" value="Register">
+                <div class="alert alert-warning" id="passwordVerifyWarning" style="display: none">
+                    Sorry, The Passwords Do Not Match
+                </div>
+                <input type="submit" class="btn btn-warning" style="width:100%" value="Register" id="submitButton">
             </form>
 
 
         </div>
     </div>
-
+    <script src="../JavaScript/passwordCheck.js"></script>
     <script>
         function showContent(event, option) {
             // Declare all variables

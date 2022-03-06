@@ -1,7 +1,8 @@
 <?php
 
-session_start();
-
+if (!isset($_SESSION)){
+    session_start();
+}
 if (isset($_GET["error"])){
     if ($_GET["error"] = "duplicate-email"){
         echo '<script>alert("Email already in use")</script>';
@@ -74,14 +75,14 @@ if (isset($_GET["error"])){
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
                     </div>
-                    <input type="email" placeholder="someone@email.com" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    <input type="email" placeholder="someone@email.com" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="email">
                 </div>
 
                 <div class="input-group mb-3"><!-- Password Input -->
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
                     </div>
-                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="pw">
                 </div>
                 <button type="button" class="btn btn-warning" style="width:100%">Login</button>
             </form>

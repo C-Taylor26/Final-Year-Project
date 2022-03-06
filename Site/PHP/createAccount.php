@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (!isset($_SESSION)){
+    session_start();
+}
+
 include_once 'dbConnection.php';
 
 try {
@@ -25,7 +28,7 @@ catch (Exception $e){
 
 function passwordHash($pwIn){
     #Adding Password Salt
-    $pwIn = "i%l]C;H" . $pwIn;
+    $pwIn = SALT . $pwIn;
 
     #Adding Password Pepper
     $pwIn .= randomCharacter();

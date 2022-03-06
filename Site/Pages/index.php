@@ -12,7 +12,7 @@
                 overflow: hidden;
                 background-color: #f1f1f1;
                 margin: auto;
-                width: 30%;
+                width: 40%;
                 border: 3px solid #000000;
                 padding: 10px;
                 border-bottom: none;
@@ -43,7 +43,7 @@
                 border: 3px solid #000000;
                 border-top: none;
                 margin: auto;
-                width: 30%;
+                width: 40%;
                 text-align: center;
             }
         </style>
@@ -52,7 +52,7 @@
 
     <BODY>
     <div id="main">
-        <div class="loginBox" >
+        <div class="loginBox" style="margin-top: 10%">
             <button class="tab" onclick="showContent(event, 'login')" id="default">Login</button>
             <button class="tab" onclick="showContent(event, 'register')">Register</button>
         </div>

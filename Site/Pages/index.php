@@ -1,4 +1,17 @@
 <?php
+
+session_start();
+
+if (isset($_GET["error"])){
+    if ($_GET["error"] = "duplicate-email"){
+        echo '<script>alert("Email already in use")</script>';
+    }
+}
+
+if (!isset($_SESSION["user"])){
+    header("./index.php");
+}
+
 ?>
 <HTML>
     <HEAD>
@@ -149,6 +162,7 @@
         }
 
         document.getElementById("default").click();
+
 
     </script>
 

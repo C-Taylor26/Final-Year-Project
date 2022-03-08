@@ -3,12 +3,11 @@
 if (!isset($_SESSION)){
     session_start();
 }
-if (isset($_GET["error"])){
-    if ($_GET["error"] = "duplicate-email"){
-        echo '<script>alert("Email already in use")</script>';
-    }
-}
 ?>
+
+
+
+
 
 <HTML>
     <HEAD>
@@ -64,27 +63,30 @@ if (isset($_GET["error"])){
     <div id="main">
         <div class="loginBox" style="margin-top: 10%">
             <button class="tab" onclick="showContent(event, 'login')" id="default">Login</button>
-            <button class="tab" onclick="showContent(event, 'register')">Register</button>
+            <button class="tab" onclick="showContent(event, 'register')"id = "secondary">Register</button>
         </div>
 
         <!-- Login Box Tab Contents -->
         <div id="login" class="tabcontent">
             <h1>LOGIN</h1>
-            <form>
+            <form action="../PHP/login.php" method="post">
+                <div class="alert alert-danger" id="login-alert" style="display: none">
+                    Email or Password was Incorrect, Please Try Again
+                </div>
                 <div class="input-group mb-3"><!-- Email Input -->
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
                     </div>
-                    <input type="email" placeholder="someone@email.com" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="email">
+                    <input type="email" placeholder="someone@email.com" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="email">
                 </div>
 
                 <div class="input-group mb-3"><!-- Password Input -->
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
                     </div>
-                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="pw">
+                    <input type="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="pw">
                 </div>
-                <button type="button" class="btn btn-warning" style="width:100%">Login</button>
+                <button type="submit" class="btn btn-warning" style="width:100%">Login</button>
             </form>
 
 
@@ -94,6 +96,9 @@ if (isset($_GET["error"])){
         <div id="register" class="tabcontent">
             <h1>REGISTER</h1>
             <form action="../PHP/createAccount.php" method="post">
+                <div class="alert alert-danger" id="duplicate-email" style="display: none">
+                    Email is Already in Use
+                </div>
                 <div class="input-group mb-3"> <!-- Name Input-->
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">First Name</span>
@@ -166,8 +171,21 @@ if (isset($_GET["error"])){
 
     </script>
 
+    <?php
+    ?><script type="text/javascript">document.getElementById("duplicate-email").style.display = "none";</script><?php
+    ?><script type="text/javascript">document.getElementById("login-alert").style.display = "none";</script><?php
+    if (isset($_GET["error"])){
+        if ($_GET["error"] === "duplicate-email"){
+            ?><script type="text/javascript">document.getElementById("duplicate-email").style.display = "block";document.getElementById("secondary").click();</script><?php
+        }
+        if ($_GET["error"] === "login-unsuccessful"){
+            ?><script type="text/javascript">document.getElementById("login-alert").style.display = "block";</script><?php
+        }
+    }
+    ?>
 
 
     </BODY>
+
 </HTML>
 

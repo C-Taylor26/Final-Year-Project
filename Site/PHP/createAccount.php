@@ -38,8 +38,7 @@ function passwordHash($pwIn){
 }
 
 function randomCharacter() {
-    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    return $characters[rand(0, strlen($characters) - 1)];
+    return PEPPER_CHARS[rand(0, strlen(PEPPER_CHARS) - 1)];
 }
 
 

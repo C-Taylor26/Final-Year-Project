@@ -88,11 +88,9 @@ if (!isset($_SESSION)){
                 </div>
                 <button type="submit" class="btn btn-warning" style="width:100%">Login</button>
             </form>
-
-
-
         </div>
 
+        <!-- Register Box Tab Contents -->
         <div id="register" class="tabcontent">
             <h1>REGISTER</h1>
             <form action="../PHP/createAccount.php" method="post">
@@ -124,6 +122,8 @@ if (!isset($_SESSION)){
                     </div>
                     <input type="password" id="pass" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required minlength="8" name="pw">
                 </div>
+                <label for="pwStrength">Password Strength:</label>
+                <progress id="pwStrength" value="0" max="100" style="width: 70%"></progress>
                 <div style="width: 100%" class="alert alert-warning hidden" id="passwordWarning">
                     Password must be at least 8 characters long, containing Upper and Lowercase Letters and Numbers
                 </div>
@@ -134,15 +134,14 @@ if (!isset($_SESSION)){
                     </div>
                     <input type="password" id="conPass" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="pwCon">
                 </div>
-                <div class="alert alert-warning" id="passwordVerifyWarning" style="display: none">
-                    Sorry, The Passwords Do Not Match
+                <div class="alert alert-danger" id="passwordVerifyWarning" style="display: none">
+                    Passwords Do Not Match
                 </div>
                 <input type="submit" class="btn btn-warning" style="width:100%" value="Register" id="submitButton">
             </form>
-
-
         </div>
     </div>
+
     <script src="../JavaScript/passwordCheck.js"></script>
     <script>
         function showContent(event, option) {

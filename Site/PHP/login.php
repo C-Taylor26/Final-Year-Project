@@ -25,11 +25,14 @@ try {
         }
     }
     if ($login === true){
-        $_SESSION["user"] = $email;
-        $_SESSION["value"] = $user[0]["value"];
-        $_SESSION["fname"] = $user[0]["fName"];
-        $_SESSION["lname"] = $user[0]["lName"];
-        header("Location: ../Pages/overview.php");
+        $_SESSION["user"] = $user;
+        if ($user[0]["mfaKey"] === ''){
+            header("Location: ../Pages/mfaSetup.php");
+        }
+        else{
+            header("Location: ../Pages/overview.php");
+        }
+
     }
     else{
         header("Location: ../Pages/index.php?error=login-unsuccessful");

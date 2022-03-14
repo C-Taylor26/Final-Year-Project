@@ -9,12 +9,13 @@ try {
     $email = $_POST["email"];
     $fname = $_POST["fname"];
     $lname = $_POST["lname"];
+    $secret = $_POST["token"];
 
     $pw = passwordHash($_POST["pw"]);
     $user = getUser($_POST["email"]);
 
     if (count($user) == 0) {
-        createAccount($email, $fname, $lname, $pw);
+        createAccount($email, $fname, $lname, $pw, $secret);
     }
     else {
         header("Location: ../Pages/index.php?error=duplicate-email");

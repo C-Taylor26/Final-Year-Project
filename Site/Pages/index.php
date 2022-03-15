@@ -1,13 +1,15 @@
 <?php
 
-if (!isset($_SESSION)){
-    session_start();
+if (isset($_SESSION)){
+    session_destroy();
+}
+session_start();
+
+
+if(isset($_GET["error"]) && $_GET["error"] === "500"){
+    echo "<script>window.addEventListener('load', (event) => {showError();});</script>";
 }
 ?>
-
-
-
-
 
 <HTML>
     <HEAD>
@@ -61,6 +63,9 @@ if (!isset($_SESSION)){
 
     <BODY>
     <div id="main">
+        <div class="alert alert-danger" id="500" style="display: none; text-align: center;">
+            An unexpected error occurred
+        </div>
         <div class="loginBox" style="margin-top: 10%">
             <button class="tab" onclick="showContent(event, 'login')" id="default">Login</button>
             <button class="tab" onclick="showContent(event, 'register')"id = "secondary">Register</button>
@@ -93,7 +98,7 @@ if (!isset($_SESSION)){
         <!-- Register Box Tab Contents -->
         <div id="register" class="tabcontent">
             <h1>REGISTER</h1>
-            <form action="../PHP/createAccount.php" method="post">
+            <form action="../PHP/checkEmail.php" method="post">
                 <div class="alert alert-danger" id="duplicate-email" style="display: none">
                     Email is Already in Use
                 </div>
@@ -167,6 +172,10 @@ if (!isset($_SESSION)){
 
         document.getElementById("default").click();
 
+        function showError(){
+            let errormsg = document.getElementById("500");
+            errormsg.style.display = "block";
+        }
 
     </script>
 

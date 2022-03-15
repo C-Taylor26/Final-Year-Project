@@ -1,46 +1,25 @@
 <?php
+
+include_once 'dbConnection.php';
+include_once 'settings.php';
+
 if (!isset($_SESSION)){
     session_start();
 }
 
-include_once 'dbConnection.php';
-
-try {
-    $email = $_POST["email"];
-    $fname = $_POST["fname"];
-    $lname = $_POST["lname"];
-    $secret = $_POST["token"];
-
-    $pw = passwordHash($_POST["pw"]);
-    $user = getUser($_POST["email"]);
-
-    if (count($user) == 0) {
-        createAccount($email, $fname, $lname, $pw, $secret);
-    }
-    else {
-        header("Location: ../Pages/index.php?error=duplicate-email");
-    }
+if (!isset($_SESSION["email"])){
+    header("Location: index.php");
 }
+var_dump($_SESSION);
+createAccount($_SESSION["email"], $_SESSION["fname"], $_SESSION["lname"], $_SESSION["pw"], $_SESSION["token"]);
 
-catch (Exception $e){
-    echo $e;
-}
+unset($_SESSION["pw"]);
+unset($_SESSION["token"]);
 
 
-function passwordHash($pwIn){
-    #Adding Password Salt
-    $pwIn = SALT . $pwIn;
+$_SESSION["auth"] = true;
 
-    #Adding Password Pepper
-    $pwIn .= randomCharacter();
-
-    #Hashing Salted and Peppered Password
-    return strtoupper(hash("sha256" ,$pwIn));
-}
-
-function randomCharacter() {
-    return PEPPER_CHARS[rand(0, strlen(PEPPER_CHARS) - 1)];
-}
+header("Location: ../Pages/overview.php");
 
 
 

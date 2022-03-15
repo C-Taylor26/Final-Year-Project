@@ -2,8 +2,11 @@
 if (!isset($_SESSION)){
     session_start();
 }
-if (!isset($_SESSION["user"])){
+if (!isset($_SESSION["auth"])){
     header("Location: index.php");
+}
+else if ($_SESSION["auth"] === false){
+    header("Location: mfaCheck.php?error=authRequired");
 }
 var_dump($_SESSION);
 ?>

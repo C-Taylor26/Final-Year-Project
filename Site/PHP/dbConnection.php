@@ -16,10 +16,9 @@ function getConnection(){
     return $dbConnection;
 }
 
-function createAccount($email, $fname, $lname, $pw) {
+function createAccount($email, $fname, $lname, $pw, $token) {
     try{
-        $sql = sprintf("INSERT INTO users (ID, fName, lName, password, value) VALUES ('%s', '%s', '%s', '%s', 0)", $email, $fname, $lname, $pw);
-
+        $sql = sprintf("INSERT INTO users (ID, fName, lName, password, value, mfaToken) VALUES ('%s', '%s', '%s', '%s', 0, '%s')", $email, $fname, $lname, $pw, $token);
         $statement = getConnection()->prepare($sql);
         $statement->execute();
     }

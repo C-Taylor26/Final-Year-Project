@@ -1,6 +1,7 @@
 <?php
 
 include_once 'settings.php';
+include_once 'AES.php';
 
 function getConnection(){
     $dataSourceName = 'mysql:dbname='.DB_DATABASE.';host='.DB_SERVER;
@@ -17,8 +18,11 @@ function getConnection(){
 }
 
 function createAccount($email, $fname, $lname, $pw, $token) {
+
     try{
-        $sql = sprintf("INSERT INTO users (ID, fName, lName, password, value, mfaToken) VALUES ('%s', '%s', '%s', '%s', 0, '%s')", $email, $fname, $lname, $pw, $token);
+        $sql = sprintf("INSERT INTO users (ID, fName, lName, password, value, mfaToken) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
+            $email, encrypt($fname), encrypt($lname), encrypt($pw), encrypt("0"), encrypt($token));
+        echo $sql;
         $statement = getConnection()->prepare($sql);
         $statement->execute();
     }

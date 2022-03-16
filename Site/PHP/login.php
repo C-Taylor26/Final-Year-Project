@@ -1,6 +1,7 @@
 <?php
 include_once "dbConnection.php";
 include_once "settings.php";
+include_once 'AES.php';
 
 if (!isset($_SESSION)){
     session_start();
@@ -14,7 +15,7 @@ $saltedPW = SALT . $pw;
 $user = getUser($email);
 $login = false;
 if (count($user)>0) {
-    $pwActual = $user[0]["password"];
+    $pwActual = decrypt($user[0]["password"]);
 
     for ($i = 0; $i < strlen(PEPPER_CHARS); $i++) {
         $testPW = $saltedPW . PEPPER_CHARS[$i];
@@ -26,10 +27,10 @@ if (count($user)>0) {
 }
 if ($login === true){
     $_SESSION["email"] = $user[0]["ID"];
-    $_SESSION["fname"] = $user[0]["fName"];
-    $_SESSION["lname"] = $user[0]["lName"];
-    $_SESSION["value"] = $user[0]["value"];
-    $_SESSION["token"] = $user[0]["mfaToken"];
+    $_SESSION["fname"] = decrypt($user[0]["fName"]);
+    $_SESSION["lname"] = decrypt($user[0]["lName"]);
+    $_SESSION["value"] = decrypt($user[0]["value"]);
+    $_SESSION["token"] = decrypt($user[0]["mfaToken"]);
     $_SESSION["auth"] = false;
     header("Location: ../Pages/mfaCheck.php");
 }

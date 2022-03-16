@@ -5,6 +5,9 @@ if (!isset($_SESSION)){
 if (!isset($_SESSION["auth"])){
     header("Location: index.php");
 }
+if (!isset($_SESSION["value"])){
+    header("Location: index.php");
+}
 else if ($_SESSION["auth"] === false){
     header("Location: mfaCheck.php?error=authRequired");
 }

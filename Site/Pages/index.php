@@ -106,12 +106,12 @@ if(isset($_GET["error"]) && $_GET["error"] === "500"){
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">First Name</span>
                     </div>
-                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="fname">
+                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" maxlength="64" required name="fname">
 
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Last Name</span>
                     </div>
-                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="lname">
+                    <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" maxlength="64" required name="lname">
                 </div>
 
                 <div class="input-group mb-3"><!-- Email Input -->
@@ -125,7 +125,7 @@ if(isset($_GET["error"]) && $_GET["error"] === "500"){
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
                     </div>
-                    <input type="password" id="pass" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required minlength="8" name="pw">
+                    <input type="password" id="pass" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" maxlength="64" required minlength="8" name="pw">
                 </div>
                 <label for="pwStrength">Password Strength:</label>
                 <progress id="pwStrength" value="0" max="100" style="width: 70%"></progress>
@@ -137,7 +137,7 @@ if(isset($_GET["error"]) && $_GET["error"] === "500"){
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Confirm Password</span>
                     </div>
-                    <input type="password" id="conPass" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="pwCon">
+                    <input type="password" id="conPass" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" maxlength="64" required name="pwCon">
                 </div>
                 <div class="alert alert-danger" id="passwordVerifyWarning" style="display: none">
                     Passwords Do Not Match

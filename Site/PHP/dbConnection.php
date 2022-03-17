@@ -40,4 +40,16 @@ function getUser($email) {
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function updateValue($email, $newValue){
+    try{
+        $sql = sprintf("UPDATE users SET value = '%s' WHERE ID = '%s'", encrypt($email), encrypt(strval($newValue)));
+        $statement = getConnection()->prepare($sql);
+        $statement->execute();
+    }
+    catch(PDOException $e){
+        echo $e->getMessage();
+
+    }
+}
+
 

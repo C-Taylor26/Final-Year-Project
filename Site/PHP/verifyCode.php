@@ -3,7 +3,7 @@
 if (!isset($_SESSION)){
     session_start();
 }
-
+/* DISABLED MFA FOR EASE
 //Setting up MFA Library
 require_once "../../Libraries/vendor/autoload.php";
 use RobThree\Auth\TwoFactorAuth;
@@ -31,3 +31,7 @@ else{
         header("Location: ../Pages/mfaCheck.php?error=codeError");
     }
 }
+*/
+$_SESSION["auth"] = true;
+header("Location: ../Pages/overview.php");
+unset($_SESSION["token"]);

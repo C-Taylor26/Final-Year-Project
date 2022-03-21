@@ -49,10 +49,6 @@ var_dump($_SESSION);
             background-color: #04AA6D;
             color: white;
         }
-        .clock {
-            float: right;
-            padding: 0 3%;
-        }
         .banner-title {
             float: left;
             color: #f2f2f2;
@@ -70,9 +66,9 @@ var_dump($_SESSION);
 <body>
     <div class="nav-bar">
         <a class="banner-title">AI Stock Trader</a>
-        <a class="item" href="../Pages/overview.php">Dashboard</a>
-        <a class="item" href="../Pages/monthly-data.php">Monthly Data</a>
-        <h1 id="dateTime" class="clock"></h1>
+        <a class="item" href="overview.php">Dashboard</a>
+        <a class="item" href="monthly-data.php">Monthly Data</a>
+        <a class="item" href="index.php?logout=true" style="float: right">Logout</a>
     </div>
 
 

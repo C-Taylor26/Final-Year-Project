@@ -1,13 +1,16 @@
 <?php
 
-if (isset($_SESSION)){
-    session_destroy();
+if (!isset($_SESSION)){
+    session_start();
 }
-session_start();
-
+session_destroy();
+var_dump($_SESSION);
 
 if(isset($_GET["error"]) && $_GET["error"] === "500"){
     echo "<script>window.addEventListener('load', (event) => {showError();});</script>";
+}
+if(isset($_GET["logout"])){
+    header("Refresh:0");
 }
 ?>
 

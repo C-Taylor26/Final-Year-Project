@@ -1,8 +1,8 @@
 from dbConnection import *
 from NeuralNetwork import NeuralNetwork
 
-def getInputs(stock):
-    data = getStockData(stock, "training")
+def getInputs(stock, dataType):
+    data = getStockData(stock, dataType)
 
     inputData = []
     targets = []
@@ -11,8 +11,17 @@ def getInputs(stock):
     for point in data:
         daysData = []
         daysData.append(point[3])
-        for i in range(4, 12):
-            daysData.append(float(point[i]))
+
+        #Days Price Change
+        change = float((point[5] - point[4])/point[4])
+        daysData.append(change)
+
+        #Moving Averages Changes
+        for i in range(6, 9):
+            change = float((point[i+3] - point[i])/point[i])
+            daysData.append(change)
+
+
         inputData.append(daysData)
 
         changes.append(point[12])
@@ -69,6 +78,3 @@ def networkSetup():
 
     learningRate = input("Network Learning Rate: ")
 
-
-
-            

@@ -33,4 +33,8 @@ def validateHash(data):
 
     return True
 
-results = getStockData("NFLX", "testing")
+def getStocks():
+    sql = "SELECT * FROM stocks"
+    results = dbSatement(sql)
+    return results
+

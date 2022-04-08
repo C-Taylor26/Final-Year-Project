@@ -71,8 +71,9 @@ class NeuralNetwork:
         # return the loss
         return loss   
     
-X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-y = np.array([[0], [1], [1], [0]])
+def demo():
+    X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+    y = np.array([[0], [1], [1], [0]])
 
-nn = NeuralNetwork([2, 2, 2, 1], 0.5)
-nn.fit(X, y, 10000)
+    nn = NeuralNetwork([2, 2, 2, 1], 0.5)
+    nn.fit(X, y, 10000)

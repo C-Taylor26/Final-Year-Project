@@ -1,5 +1,6 @@
 from dbConnection import *
 from NeuralNetwork import NeuralNetwork
+import numpy as np
 
 def getInputs(stock, dataType):
     data = getStockData(stock, dataType)
@@ -31,7 +32,7 @@ def getInputs(stock, dataType):
         target.append(t)
         targets.append(target)
 
-    return inputData, targets, changes
+    return np.array(inputData), np.array(targets), changes
 
 def trainNN(architecture, learingRate, epochs, inputs, targets):
     nn = NeuralNetwork(architecture, learingRate)
@@ -42,12 +43,14 @@ def trainNN(architecture, learingRate, epochs, inputs, targets):
 def testNetwork(stock, nn):
     testingSet, testingTargets, changes = getInputs(stock, "testing")
     predictions = []
-    result = []
+    result = 0
     correctPreds = 0
 
-    for i in range(testingSet):
+    for i in range(len(changes)):
         pred = nn.predict(testingSet[i])
         predictions.append(pred)
+
+        print(pred)
 
         if pred > .5:
             result += changes[i]
@@ -73,8 +76,16 @@ def networkSetup():
     netArc.append(1)
     network.append(netArc)
 
-    epochs = input("Number of iterations: ")
+    epochs = int(input("Number of iterations: "))
     network.append(epochs)
 
-    learningRate = input("Network Learning Rate: ")
+    learningRate = float(input("Network Learning Rate: "))
+    network.append(learningRate)
 
+    return network
+
+stock = "NFLX"
+setup = networkSetup()
+trainingSet, trainingTargets, changes = getInputs(stock, "training")
+network = trainNN(setup[0], setup[2], setup[1], trainingSet, trainingTargets)
+testNetwork(stock, network)

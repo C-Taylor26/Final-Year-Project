@@ -22,7 +22,6 @@ def getInputs(stock, dataType):
             change = float((point[i+3] - point[i])/point[i])
             daysData.append(change)
 
-
         inputData.append(daysData)
 
         changes.append(point[12])

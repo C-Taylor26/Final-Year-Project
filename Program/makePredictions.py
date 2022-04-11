@@ -11,7 +11,7 @@ def getInputs(stock, dataType):
 
     for point in data:
         daysData = []
-        daysData.append(point[3])
+        #daysData.append(point[3])
 
         #Days Price Change
         change = float((point[5] - point[4])/point[4])
@@ -44,27 +44,38 @@ def testNetwork(stock, nn):
     predictions = []
     result = 0
     correctPreds = 0
+    randResult =0
+    randCorr =0
 
     for i in range(len(changes)):
         pred = nn.predict(testingSet[i])
         predictions.append(pred)
 
-        print(pred)
-
         if pred > .5:
             result += changes[i]
-            if testingTargets[i][0] > 0:
+            if testingTargets[i][0] == 1:
                 correctPreds += 1
         else:
             result -= changes[i]
-            if testingTargets[i][0] < 0:
+            if testingTargets[i][0] == 0:
                 correctPreds += 1
-    
-    print("Trading Score: {}\nAccuracy: {}".format(result, (correctPreds/len(testingSet))))
+
+        rand = np.random.random()
+        if rand > .5:
+            randResult += changes[i]
+            if testingTargets[i][0] == 1:
+                randCorr += 1
+        else:
+            randResult -= changes[i]
+            if testingTargets[i][0] == 0:
+                randCorr += 1
+ 
+    print("Network - Trading Score: {}\tAccuracy: {}".format(result, (correctPreds/len(testingSet))))
+    print("Random  - Trading Score: {}\tAccuracy: {}".format(randResult, (randCorr/len(testingSet))))
 
 def networkSetup():
     network = []
-    netArc = [5]
+    netArc = [4]
     while True:
         newLayer = int(input("Hidden Layer Neurons (0 if no more to add): "))
         if newLayer == 0:

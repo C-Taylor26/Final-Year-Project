@@ -2,12 +2,13 @@ import requests
 from keys import *
 
 class Week:
-    def __init__(self, date, open, close, change, maChanges):
+    def __init__(self, date, open, close, change, maChanges, nextWeekChange):
         self.date = date
         self.open = open
         self.close = close
         self.change = change
         self.maChanges = maChanges
+        self.nextWeekChange = nextWeekChange
 
 def getWeekly(stock):
     json = {"function":"TIME_SERIES_WEEKLY","symbol":stock,"datatype":"json"}
@@ -18,19 +19,25 @@ def getWeekly(stock):
     weeklyData = []
     count = -1
     for week in data:
-        if count == -1:
+        if count < 0:
             count +=1
             continue
-        elif count > 77:
+        elif count > 78:
             break
         else:
             open = float(data[week]["1. open"])
             close = float(data[week]["4. close"])
-            newWeek = Week(week, open, close, ((close-open)/open), {"20":0,"50":0,"200":0})
+
+            if len(weeklyData) != 0:
+                nwc = weeklyData[count-1].change
+            else:
+                nwc = 0
+
+            newWeek = Week(week, open, close, ((close-open)/open), {"20":0,"50":0,"200":0}, nwc)
             weeklyData.append(newWeek)
             count +=1
         
-    weeklyData = getMAs(stock, weeklyData)
+    weeklyData = getMAs(stock, weeklyData[1:])
     
     return weeklyData
 
@@ -64,3 +71,4 @@ def getMAs(stock, weeklyData):
     
     return weeklyData
 
+getWeekly("AMD")

@@ -19,8 +19,7 @@ try{
     unset($_SESSION["token"]);
 
     $_SESSION["auth"] = true;
-    $_SESSION["value"] = 0;
-    #header("Location: ../Pages/overview.php");
+    header("Location: ../Pages/overview.php");
 }
 catch (Exception $e){
     header("Location: ../Pages/index.php?error=500");

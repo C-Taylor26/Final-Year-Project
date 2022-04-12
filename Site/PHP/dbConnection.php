@@ -20,8 +20,8 @@ function getConnection(){
 function createAccount($email, $fname, $lname, $pw, $token) {
 
     try{
-        $sql = sprintf("INSERT INTO users (ID, fName, lName, password, value, mfaToken) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
-            $email, encrypt($fname), encrypt($lname), encrypt($pw), encrypt("0"), encrypt($token));
+        $sql = sprintf("INSERT INTO users (ID, fName, lName, password, mfaToken) VALUES ('%s', '%s', '%s', '%s', '%s')",
+            $email, encrypt($fname), encrypt($lname), encrypt($pw), encrypt($token));
         echo $sql;
         $statement = getConnection()->prepare($sql);
         $statement->execute();

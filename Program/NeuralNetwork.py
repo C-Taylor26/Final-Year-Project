@@ -19,7 +19,7 @@ class NeuralNetwork:
         return x * (1 - x)
 
     def fit(self, X, y, epochs=1000):
-        percentageStep = epochs/100
+        percentageStep = epochs/10
         X = np.c_[X, np.ones((X.shape[0]))]
 
         for epoch in np.arange(0, epochs):

@@ -22,7 +22,7 @@ def getWeekly(stock):
         if count < 0:
             count +=1
             continue
-        elif count > 78:
+        elif count > 104:
             break
         else:
             open = float(data[week]["1. open"])
@@ -71,4 +71,3 @@ def getMAs(stock, weeklyData):
     
     return weeklyData
 
-getWeekly("AMD")

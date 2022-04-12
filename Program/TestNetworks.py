@@ -2,9 +2,39 @@ from dbConnection import *
 from NeuralNetwork import NeuralNetwork
 import numpy as np
 import neurolab as nl
+from getWeeklyData import getWeekly
 
+def getWeeklyInputs(stock):
+    data = getWeekly(stock)
 
-def getInputs(stock, dataType):
+    returnData = {"trainingIns":[], "trainingTs":[], "testingIns":[], "testingTs":[], "testingCs":[]}
+
+    i = 0
+    for week in data:
+        weekData = []
+        weekData.append(week.change)
+        weekData.append(week.maChanges["20"])
+        weekData.append(week.maChanges["50"])
+        weekData.append(week.maChanges["200"])
+        target = 1 if week.nextWeekChange > 0 else 0
+        if i > 25:
+            returnData["trainingIns"].append(weekData)
+            returnData["trainingTs"].append([target])
+        else:
+            returnData["testingIns"].append(weekData)
+            returnData["testingTs"].append([target])
+            returnData["testingCs"].append(week.change)
+
+        i+=1
+
+    returnData["trainingIns"] = np.array(returnData["trainingIns"])
+    returnData["trainingTs"] = np.array(returnData["trainingTs"])
+    returnData["testingIns"] = np.array(returnData["testingIns"])
+    returnData["testingTs"] = np.array(returnData["testingTs"])
+
+    return returnData
+
+def getDailyInputs(stock, dataType):
     data = getStockData(stock, dataType)
 
     inputData = []
@@ -42,7 +72,14 @@ def trainNN(architecture, learingRate, epochs, inputs, targets):
     return nn
 
 def testNetwork(stock, nn):
-    testingSet, testingTargets, changes = getInputs(stock, "testing")
+
+    if testType == "d":
+        testingSet, testingTargets, changes = getDailyInputs(stock, "testing")
+    else:
+        testingSet = data["testingIns"]
+        testingTargets = data["testingTs"]
+        changes = data["testingCs"]
+    
     predictions = []
     result = 0
     correctPreds = 0
@@ -96,11 +133,15 @@ def testNetwork(stock, nn):
     
 
 def neurolabTest(stock, layers):
-    x, y, changes = getInputs(stock, "training")
-    testingInputs, testingTargets, testingChanges = getInputs(stock, "testing")
+    if testType == "d":
+        x, y, changes = getDailyInputs(stock, "training")
+        testingInputs, testingTargets, testingChanges = getDailyInputs(stock, "testing")
+    else:
+        testingInputs = data["testingIns"]
+        x = data["trainingIns"]
+        y = data["trainingTs"]
 
     size = len(x)
-
 
     inputs = {"0":[], "1":[], "2":[], "3":[]}
 
@@ -125,38 +166,22 @@ def neurolabTest(stock, layers):
 
     err = network.train(x,y, epochs=10000, show=100)
 
-
-
     out = network.sim(testingInputs)
     return out
 
-def networkSetup():
-    network = []
-    netArc = [4]
-    while True:
-        newLayer = int(input("Hidden Layer Neurons (0 if no more to add): "))
-        if newLayer == 0:
-            break
-        else:
-            netArc.append(newLayer)
-    
-    netArc.append(1)
-    network.append(netArc)
 
-    epochs = 10000
-    network.append(epochs)
-
-    learningRate = 0.1
-    network.append(learningRate)
-
-    return network
-
-#stock = input("enter stock (NFLX, AAPL, AMD): ")
-#setup = networkSetup()
 stock = "AMD"
-setup = [[4,10,5,5,1], 10000, .1]
+setup = [[4,10,10,10,1], 10000, .1]
 nlSetup = setup[0][1:]
+testType = "w" #d - Daily | w - Weekly
+data = getWeeklyInputs(stock)
 
-trainingSet, trainingTargets, changes = getInputs(stock, "training")
+if testType == "d":
+    trainingSet, trainingTargets, changes = getDailyInputs(stock, "training")
+else:
+    trainingSet = data["trainingIns"]
+    trainingTargets = data["trainingTs"]
+
+
 network = trainNN(setup[0], setup[2], setup[1], trainingSet, trainingTargets)
 testNetwork(stock, network)

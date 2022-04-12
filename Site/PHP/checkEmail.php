@@ -8,7 +8,7 @@ if (!isset($_SESSION)){
 
 include_once 'dbConnection.php';
 if (isset($_POST["email"])) {
-    $_SESSION["email"] = $_POST["email"];
+    $_SESSION["email"] = hash("sha256", $_POST["email"]);
     $_SESSION["fname"] = $_POST["fname"];
     $_SESSION["lname"] = $_POST["lname"];
     $_SESSION["pw"] = hashPassword($_POST["pw"]);

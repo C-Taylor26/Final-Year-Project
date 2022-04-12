@@ -19,11 +19,6 @@ def dbSatement(sql):
     return results
 
 def validateHash(data):
-    #date as sting
-    #input = "{}, '{}'".format(values, hashlib.sha256(values.encode()).hexdigest())
-    #MAs = "{}, {}, {}, {}, {}, {}".format(oMAs.twenty, oMAs.fifty, oMAs.twoHundered, cMAs.twenty, cMAs.fifty, cMAs.twoHundered)
-    #date = data.date.strftime("%Y-%m-%d")
-    #values = "'{}', '{}', {}, {}, {}, {}, {}, '{}'".format(data.stock, date, data.daysVolume, data.daysOpen, data.daysClose, MAs, data.nextDayChange, datatype)
     for x in data:
         hash = x[14]
         datapoints = "'{}', '{}', {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, '{}'".format(x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9],x[10],x[11],float(x[12]), x[13])

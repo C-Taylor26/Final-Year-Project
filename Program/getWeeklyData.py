@@ -64,9 +64,3 @@ def getMAs(stock, weeklyData):
     
     return weeklyData
 
-        
-
-data = getWeekly("TSLA")
-print(len(data))
-print(data[0].open)
-print(data[-1].close)

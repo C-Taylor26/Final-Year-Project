@@ -1,7 +1,8 @@
 #MySQL Module for database connections
+from datetime import datetime
 import mysql.connector
 import hashlib
-
+from alpaca_api import daysActivity
 def getStockData(stock, dataType):
     sql = "SELECT * FROM data WHERE datatype='{}' AND stock='{}' ORDER BY date".format(dataType, stock)
     results = dbSatement(sql)
@@ -33,3 +34,9 @@ def getStocks():
     results = dbSatement(sql)
     return results
 
+def logDaysChange():
+    data = daysActivity()
+    date = datetime.now().strftime("%Y-%m-%d")
+    sql = "INSERT INTO dayChange (date, percentageChange) VALUES ('{}', {})".format(date, data["change"])
+    results = dbSatement(sql)
+    

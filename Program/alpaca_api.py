@@ -10,14 +10,14 @@ import requests
 #Datatime module for managing time objects
 import datetime
 
-
 #API URLS
 BASE_URL = "https://paper-api.alpaca.markets"
 ACCOUNT_URL = "{}/v2/account".format(BASE_URL)
 ORDERS_URL = "{}/v2/orders".format(BASE_URL)
+POSITIONS_URL = "{}/v2/positions".format(BASE_URL)
 
 #ALPACA MODULE
-api = tradeapi.REST(API_KEY, SECRET_KEY, BASE_URL)
+api = tradeapi.REST(PUBLIC_KEY, SECRET_KEY, BASE_URL)
 
 #Creates an order with a stop loss and take profit
 def createOrder(symbol, qty, side, take_profit, stop_loss):
@@ -39,9 +39,6 @@ def createOrder(symbol, qty, side, take_profit, stop_loss):
     data = r.json()
 
     return data
-
-#Closes any pending orders or open positions
-
 
 #Gets account information
 def getAccount():   
@@ -74,4 +71,21 @@ def getMASet(symbol, timeframe, end):
 
     return data
 
-#Gets open positions for a given stock
+def closeAll():
+    r = requests.delete(ORDERS_URL, headers=HEADERS)
+    r = requests.delete(POSITIONS_URL, headers=HEADERS)
+
+def daysActivity():
+    url = ACCOUNT_URL + "/portfolio/history"
+    json = {
+        "period":"1D",
+        "timeframe":"1D"
+    }
+    r = requests.get(url, json=json, headers=HEADERS)
+    data = r.json()
+
+    daysActicity = {"equity":data['equity'][-1], "change":data['profit_loss_pct'][-1]}
+    print(data['equity'][-5:])
+    print(data['profit_loss_pct'][-5:])
+
+daysActivity()

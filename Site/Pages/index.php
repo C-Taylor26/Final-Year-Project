@@ -10,7 +10,7 @@ if(isset($_GET["error"]) && $_GET["error"] === "500"){
     echo "<script>window.addEventListener('load', (event) => {showError();});</script>";
 }
 if(isset($_GET["logout"])){
-    header("Refresh:0");
+    header("index.php");
 }
 ?>
 

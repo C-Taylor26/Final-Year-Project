@@ -5,9 +5,14 @@ include_once "../PHP/AES.php";
 var_dump($_GET);
 
 $tradeID = $_GET["tradeID"];
-$change = encrypt($_GET["change"]);
-$closeDate = encrypt(date("Y-m-d"));
+$change = $_GET["change"];
+$closeDate = date("Y-m-d");
+$startingValue = $_GET["startingValue"];
 
-closeTrade($tradeID, $closeDate, $change);
+closeTrade($tradeID, encrypt($closeDate), encrypt($change));
+
+$amount = strval((floatval($change)+1) * floatval($startingValue));
+$amount = number_format($amount, 2);
+header("Location: ../Pages/withdraw.php?amount=".$amount);
 
 

@@ -79,7 +79,7 @@ var_dump($_SESSION);
 </div>
 <div>
     <div class="column-left">
-        <h1>***Place Holder Table</h1>
+        <h1>Positions</h1>
         <div style="border: #333333 solid">
             <table class="table">
                 <thead>
@@ -110,7 +110,7 @@ var_dump($_SESSION);
                         foreach ($days as $day){
                             $change = $change + floatval($day["percentageChange"]);
                         }
-                        $btn = '<a href="../PHP/closeTrade.php?tradeID='.$p["ID"]. '&change='.$change.'" class="btn btn-primary" role="button">Close Trade</a>';
+                        $btn = '<a href="../PHP/closeTrade.php?tradeID='.$p["ID"]. '&change='.$change.'&startingValue='.$startingValue.'" class="btn btn-primary" role="button">Close Trade</a>';
                         $totalEquity = $totalEquity + (($change+1) * $startingValue);
                     }
                     else{

@@ -101,7 +101,7 @@ var_dump($_SESSION);
                     $openDate = decrypt($p["openDate"]);
                     $closeDate = decrypt($p["closeDate"]);
 
-                    $startingValue = decrypt($p["value"]);
+                    $startingValue = floatval(decrypt($p["value"]));
                     $change = 0;
                     if ($closeDate == ""){
                         $closeDate = "-";
@@ -151,8 +151,8 @@ var_dump($_SESSION);
                 <h2><?php echo $_SESSION["fname"], " ", $_SESSION["lname"], "    -    Equity: £$totalEquity"?></h2>
             </div>
             <div style="padding: 10px; border: #333333 solid; text-align: center; align-content: center; margin: auto">
-                <button type="button" class="btn btn-success" style="width: 90%; margin: 1%">Deposit</button>
-
+                <!--<button type="button" class="btn btn-success" style="width: 90%; margin: 1%">Deposit</button>-->
+                <a href="deposit.php?" class="btn btn-success" role="button" style="width: 90%; margin: 1%">Deposit</a>
             </div>
         </div>
     </div>

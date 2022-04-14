@@ -22,7 +22,6 @@ if(isset($_GET["error"])){
     echo "<script>window.addEventListener('load', (event) => {showError();});</script>";
 }
 
-var_dump($_SESSION);
 ?>
 
 <HTML>

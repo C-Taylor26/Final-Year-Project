@@ -4,7 +4,6 @@ if (!isset($_SESSION)){
     session_start();
 }
 session_destroy();
-var_dump($_SESSION);
 
 if(isset($_GET["error"]) && $_GET["error"] === "500"){
     echo "<script>window.addEventListener('load', (event) => {showError();});</script>";

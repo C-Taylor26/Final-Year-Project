@@ -12,7 +12,7 @@ if (!isset($_SESSION["auth"])){
 else if ($_SESSION["auth"] === false){
     header("Location: mfaCheck.php?error=authRequired");
 }
-var_dump($_SESSION);
+
 ?>
 
 <HTML>

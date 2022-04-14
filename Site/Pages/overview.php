@@ -142,8 +142,8 @@ $charDataJson = json_encode($chartData);
                     datasets: [{
                         fill: false,
                         lineTension: 0,
-                        backgroundColor: "rgb(102,255,0)",
-                        borderColor: "rgb(0,0,0)",
+                        backgroundColor: "rgb(0,34,255)",
+                        borderColor: "rgb(110,131,245)",
                         data: yValues
                     }]
                 },

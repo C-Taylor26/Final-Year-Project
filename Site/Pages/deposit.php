@@ -35,7 +35,7 @@ include_once "../PHP/dbConnection.php";
     </div>
     <div class="tabcontent">
         <h1>Deposit</h1>
-        <form action="../PHP/deposit.php?">
+        <form action="../PHP/deposit.php?" method="post">
             <div class="alert alert-danger" id="error-alert" style="display: none">
                 There was a problem processing your request, please try again.
             </div>
@@ -43,7 +43,7 @@ include_once "../PHP/dbConnection.php";
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Amount (£)</span>
                 </div>
-                <input type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required >
+                <input type="number" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required name="value">
             </div>
             <button type="submit" class="btn btn-warning" style="width:100%">Deposit</button>
         </form>

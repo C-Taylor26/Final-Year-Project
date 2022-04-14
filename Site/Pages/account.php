@@ -1,4 +1,8 @@
 <?php
+
+include_once "../PHP/dbConnection.php";
+include_once "../PHP/AES.php";
+
 if (!isset($_SESSION)){
     session_start();
 }
@@ -80,31 +84,53 @@ var_dump($_SESSION);
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Open Date</th>
+                    <th scope="col">Close Date</th>
+                    <th scope="col">Starting Value</th>
+                    <th scope="col">Change</th>
+                    <th scope="col">Current Value</th>
+                    <th scope="col">Close Trade</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                <?php
+                $positions = getUserPositions($_SESSION["email"]);
+                foreach ($positions as $p){
+                    $openDate = decrypt($p["openDate"]);
+                    $closeDate = decrypt($p["closeDate"]);
+                    if ($closeDate == ""){
+                        $closeDate = "-";
+                        $btn = '<a href="../PHP/closeTrade.php?tradeID='.$p["ID"]. '" class="btn btn-primary" role="button">Close Trade</a>';
+                    }
+                    else{
+                        $btn = "Trade Closed";
+                    }
+                    $startingValue = decrypt($p["value"]);
+                    $change = 0;
+                    $days = getTrades($p["startingID"]);
+                    foreach ($days as $day){
+                        $change = $change + floatval($day["percentageChange"]);
+                    }
+
+                    $currentValue = ($change+1) * $startingValue;
+                    $change = $change *100;
+
+                    $currentValue  = number_format($currentValue, 2, '.', ',');
+                    $change = number_format($change, 2, '.', ',');
+                    $startingValue = number_format($startingValue, 2, '.', ',');
+
+
+
+                    echo '<tr>
+                            <td>' . $openDate .'</td>
+                            <td>' . $closeDate .'</td>
+                            <td>£' . $startingValue .'</td>
+                            <td>' . $change .'</td>
+                            <td>£' . $currentValue . '</td>
+                            <td>' . $btn . '</td>
+                          </tr>';
+                }
+                ?>
                 </tbody>
             </table>
         </div>

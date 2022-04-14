@@ -68,3 +68,19 @@ function newPosition($value, $ID){
     echo $sql;
 }
 
+function getTrades($startingID){
+    $sql = "SELECT * FROM `dayChange` WHERE ID >" . $startingID;
+    $statement = getConnection()->prepare($sql);
+    $statement->execute();
+    $r = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return array_reverse($r);
+}
+
+function getUserPositions($ID){
+    $sql = "SELECT * FROM `userpositions` WHERE userID='" . $ID."'";
+    $statement = getConnection()->prepare($sql);
+    $statement->execute();
+    $r = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return array_reverse($r);
+}
+

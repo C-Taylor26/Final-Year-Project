@@ -95,21 +95,27 @@ var_dump($_SESSION);
                 <tbody>
                 <?php
                 $positions = getUserPositions($_SESSION["email"]);
+                $totalEquity = 0;
+
                 foreach ($positions as $p){
                     $openDate = decrypt($p["openDate"]);
                     $closeDate = decrypt($p["closeDate"]);
+
+                    $startingValue = decrypt($p["value"]);
+                    $change = 0;
                     if ($closeDate == ""){
                         $closeDate = "-";
-                        $btn = '<a href="../PHP/closeTrade.php?tradeID='.$p["ID"]. '" class="btn btn-primary" role="button">Close Trade</a>';
+
+                        $days = getTrades($p["startingID"]);
+                        foreach ($days as $day){
+                            $change = $change + floatval($day["percentageChange"]);
+                        }
+                        $btn = '<a href="../PHP/closeTrade.php?tradeID='.$p["ID"]. '&change='.$change.'" class="btn btn-primary" role="button">Close Trade</a>';
+                        $totalEquity = $totalEquity + (($change+1) * $startingValue);
                     }
                     else{
                         $btn = "Trade Closed";
-                    }
-                    $startingValue = decrypt($p["value"]);
-                    $change = 0;
-                    $days = getTrades($p["startingID"]);
-                    foreach ($days as $day){
-                        $change = $change + floatval($day["percentageChange"]);
+                        $change = floatval(decrypt($p["percentageChange"]));
                     }
 
                     $currentValue = ($change+1) * $startingValue;
@@ -130,6 +136,8 @@ var_dump($_SESSION);
                             <td>' . $btn . '</td>
                           </tr>';
                 }
+
+                $totalEquity = number_format($totalEquity, 2, '.', ',');
                 ?>
                 </tbody>
             </table>
@@ -140,7 +148,7 @@ var_dump($_SESSION);
         <div class="justify-content-center">
             <div style="text-align: center; margin-bottom: 5%;">
                 <h1>Account Information</h1>
-                <h2><?php echo $_SESSION["fname"], " ", $_SESSION["lname"], "    -    Equity: \$XXX"?></h2>
+                <h2><?php echo $_SESSION["fname"], " ", $_SESSION["lname"], "    -    Equity: £$totalEquity"?></h2>
             </div>
             <div style="padding: 10px; border: #333333 solid; text-align: center; align-content: center; margin: auto">
                 <button type="button" class="btn btn-success" style="width: 90%; margin: 1%">Deposit</button>

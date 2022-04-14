@@ -84,3 +84,9 @@ function getUserPositions($ID){
     return array_reverse($r);
 }
 
+function closeTrade($tradeID, $closeDate, $change){
+
+    $sql = "UPDATE `userpositions` SET closeDate='".$closeDate."', percentageChange='".$change."' WHERE ID='".$tradeID."'";
+    $statement = getConnection()->prepare($sql);
+    $statement->execute();
+}

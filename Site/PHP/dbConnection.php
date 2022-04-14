@@ -52,4 +52,11 @@ function updateValue($email, $newValue){
     }
 }
 
+function getDaysChange(){
+    $sql = "SELECT * FROM `dayChange`";
+    $statement = getConnection()->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
 

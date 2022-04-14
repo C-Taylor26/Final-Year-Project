@@ -1,4 +1,9 @@
 <?php
+
+//const xmlhttp = new XMLHttpRequest();
+
+include_once "../PHP/dbConnection.php";
+
 if (!isset($_SESSION)){
     session_start();
 }
@@ -8,7 +13,11 @@ if (!isset($_SESSION["auth"])){
 else if ($_SESSION["auth"] === false){
     header("Location: mfaCheck.php?error=authRequired");
 }
-var_dump($_SESSION);
+
+
+$chartData = getDaysChange();
+$charDataJson = json_encode($chartData);
+
 ?>
 
 <HTML>
@@ -64,7 +73,7 @@ var_dump($_SESSION);
     <div class="nav-bar">
         <a class="banner-title">AI Stock Trader</a>
         <a class="item" href="overview.php">Dashboard</a>
-        <a class="item" href="monthly-data.php">Monthly Data</a>
+        <a class="item" href="account.php">My Account</a>
         <a class="item" href="index.php?logout=true" style="float: right">Logout</a>
     </div>
 
@@ -84,12 +93,10 @@ var_dump($_SESSION);
         <div id="right" style="float: right;width: 30%; padding: 1rem; padding-top: 5rem;">
             <div id="t-r">
                 <!--secondary Chart-->
-                <h3 style="float: right">Stock Performance</h3>
+                <h3 style="float: right">Your Portfolio</h3>
                 <canvas id="secondaryChart" style="width: 100%; float: left"
             </div>
-            <div id="m-r">
-                <!--secondary Chart options-->
-            </div>
+
             <div id="b-r">
                 <!--button to other page-->
                 <button type="button" class="btn btn-outline-warning" style="width: 100%">Monthly Data</button>
@@ -97,33 +104,36 @@ var_dump($_SESSION);
         </div>
     </div>
     <script>
-        function timeUpdate() { //Updates Clock every 10000ms to correct time
-            let now = new Date()
-
-            let hours = now.getHours().toString()
-            if (hours.length === 1) { hours = "0" + hours }
-
-            let minutes = now.getMinutes().toString()
-            if (minutes.length === 1) { minutes = "0" + minutes }
-
-            let year = now.getFullYear().toString()
-
-            let month = (now.getMonth()+1).toString()
-            if (month.length === 1) { month = "0" + month }
-
-            let day = (now.getDate()).toString()
-            if (day.length === 1) { day = "0" + day }
-
-            let time = hours + ":" + minutes
-            let date = day + "/" + month + "/" + year
-
-            document.getElementById("dateTime").innerHTML = time + " | " + date
-            setTimeout(timeUpdate, 10000)
-        }
 
         function lineChartMain() { //Displays line chart of results
-            let xValues = [50,60,70,80,90,100,110,120,130,140,150];
-            let yValues = [7,8,8,9,9,9,10,11,14,14,15];
+            let chartDataText = '<?php echo $charDataJson?>'
+            let chartData = JSON.parse(chartDataText)
+
+            let xValues = []; //Bottom of chart
+            let yValues = []; //data in chart
+            let yMin = 0; //bottom Y axis label
+            let yMax = 0; //top Y axis label
+            let totalChange = 0;
+
+            for (let i = chartData.length-1; i>-1; i--){
+                xValues.push(chartData[i].date);
+                totalChange = totalChange + parseFloat(chartData[i].percentageChange);
+                yValues.push(totalChange)
+
+                if (totalChange > yMax) {
+                    yMax = totalChange;
+                }
+                if (totalChange < yMin){
+                    yMin = totalChange;
+                }
+            }
+
+            for (let i = 0; i<yValues.length; i++){
+                yValues[i] = yValues[i] * 100
+            }
+
+            yMin = yMin * 100;
+            yMax = yMax * 100;
 
             new Chart("mainChart", {
                 type: "line",
@@ -132,15 +142,15 @@ var_dump($_SESSION);
                     datasets: [{
                         fill: false,
                         lineTension: 0,
-                        backgroundColor: "rgba(0,0,255,1.0)",
-                        borderColor: "rgba(0,0,255,0.1)",
+                        backgroundColor: "rgb(102,255,0)",
+                        borderColor: "rgb(0,0,0)",
                         data: yValues
                     }]
                 },
                 options: {
                     legend: {display: false},
                     scales: {
-                        yAxes: [{ticks: {min: 6, max:16}}],
+                        yAxes: [{ticks: {min: yMin, max:yMax}}],
                     }
                 }
             });
@@ -173,7 +183,6 @@ var_dump($_SESSION);
 
         lineChartSide()
         lineChartMain()
-        timeUpdate()
 
 
     </script>

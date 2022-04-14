@@ -40,18 +40,6 @@ function getUser($email) {
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function updateValue($email, $newValue){
-    try{
-        $sql = sprintf("UPDATE users SET value = '%s' WHERE ID = '%s'", encrypt($email), encrypt(strval($newValue)));
-        $statement = getConnection()->prepare($sql);
-        $statement->execute();
-    }
-    catch(PDOException $e){
-        echo $e->getMessage();
-
-    }
-}
-
 function getDaysChange(){
     $sql = "SELECT * FROM `dayChange`";
     $statement = getConnection()->prepare($sql);
@@ -59,4 +47,24 @@ function getDaysChange(){
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getLastTrade(){
+    $sql = "SELECT `ID` FROM `dayChange`";
+    $statement = getConnection()->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function newPosition($value, $ID){
+    $x = getLastTrade();
+    $startingID = array_pop($x);
+    $startingID = $startingID["ID"];
+
+    $d = date("Y-m-d");
+
+    $sql = sprintf("INSERT INTO `userpositions` (userID, openDate, value, startingID) VALUES ('%s', '%s', '%s', '%s')",
+                            $ID, encrypt($d), encrypt($value), $startingID);
+    $statement = getConnection()->prepare($sql);
+    $statement->execute();
+    echo $sql;
+}
 

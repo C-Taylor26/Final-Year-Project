@@ -74,7 +74,7 @@ else if ($_SESSION["auth"] === false){
 <div class="nav-bar">
     <a class="banner-title">AI Stock Trader</a>
     <a class="item" href="overview.php">Dashboard</a>
-    <a class="item" href="monthly-data.php">Monthly Data</a>
+    <a class="item" href="account.php">My Account</a>
     <a class="item" href="index.php?logout=true" style="float: right">Logout</a>
 </div>
 <div>

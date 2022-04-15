@@ -14,7 +14,12 @@ else if ($_SESSION["auth"] === false){
     header("Location: mfaCheck.php?error=authRequired");
 }
 
-
+if (isset($_GET["limit"])){
+    $limit = $_GET["limit"];
+}
+else{
+    $limit = 9999;
+}
 $chartData = getDaysChange();
 $charDataJson = json_encode($chartData);
 
@@ -80,26 +85,33 @@ $charDataJson = json_encode($chartData);
 
 
     <div id="content">
-        <div id="left" style="float: left;width: 70%; padding: 1%;">
+        <div class="row" style="padding-left: 20px";>
+            <h1>AI Trading Performance</h1>
+        </div>
+        <div id="left" style="float: left;width: 80%; padding: 1%;">
             <div id="t-l">
                 <!--<h1 id="dateTime"></h1>-->
-                <h2 id="change" style="float: right">Change: 50% | $100</h2>
+                <h2 id="change" style="float: right">Change: 50%</h2>
             </div>
             <div id="m-l">
                 <!--Chart-->
                 <canvas id="mainChart" style="width:100%;"></canvas>
             </div>
         </div>
-        <div id="right" style="float: right;width: 30%; padding: 1rem; padding-top: 5rem;">
+        <div id="right" style="float: right;width: 20%; padding: 1rem; padding-top: 5rem;">
             <div id="t-r">
-                <!--secondary Chart-->
-                <h3 style="float: right">Your Portfolio</h3>
-                <canvas id="secondaryChart" style="width: 100%; float: left"
-            </div>
-
-            <div id="b-r">
-                <!--button to other page-->
-                <button type="button" class="btn btn-outline-warning" style="width: 100%">Monthly Data</button>
+                <form action="overview.php" method="get">
+                    <p>Timeframe:</p>
+                    <input type="radio" id="r" name="limit" value="7">
+                    <label for="r">Past Week</label><br>
+                    <input type="radio" id="r1" name="limit" value="30">
+                    <label for="r1">30 Days</label><br>
+                    <input type="radio" id="r2" name="limit" value="60">
+                    <label for="r2">60 Days</label><br>
+                    <input type="radio" id="r3" name="limit" value="9999">
+                    <label for="r3">All Time</label><br><br>
+                    <input type="submit" value="update" class="btn btn-outline-primary" style="width: 20%">
+                </form>
             </div>
         </div>
     </div>
@@ -109,13 +121,18 @@ $charDataJson = json_encode($chartData);
             let chartDataText = '<?php echo $charDataJson?>'
             let chartData = JSON.parse(chartDataText)
 
+            let limit = parseInt('<?php echo $limit?>')
+            if (limit > chartData.length-1){
+                limit = chartData.length-1
+            }
+
             let xValues = []; //Bottom of chart
             let yValues = []; //data in chart
             let yMin = 0; //bottom Y axis label
             let yMax = 0; //top Y axis label
             let totalChange = 0;
 
-            for (let i = chartData.length-1; i>-1; i--){
+            for (let i = limit; i>-1; i--){
                 xValues.push(chartData[i].date);
                 totalChange = totalChange + parseFloat(chartData[i].percentageChange);
                 yValues.push(totalChange)
@@ -127,6 +144,8 @@ $charDataJson = json_encode($chartData);
                     yMin = totalChange;
                 }
             }
+
+            document.getElementById("change").innerHTML = "Change: " + (totalChange*100).toFixed(2) + "%";
 
             for (let i = 0; i<yValues.length; i++){
                 yValues[i] = yValues[i] * 100
@@ -156,32 +175,7 @@ $charDataJson = json_encode($chartData);
             });
         }
 
-        function lineChartSide() { //Displays line chart of results
-            let xValues = [50,60,70,80,90,100,110,120,130,140,150];
-            let yValues = [7,8,8,9,9,9,10,11,14,14,15];
 
-            new Chart("secondaryChart", {
-                type: "line",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                        fill: false,
-                        lineTension: 0,
-                        backgroundColor: "rgba(0,0,255,1.0)",
-                        borderColor: "rgba(0,0,255,0.1)",
-                        data: yValues
-                    }]
-                },
-                options: {
-                    legend: {display: false},
-                    scales: {
-                        yAxes: [{ticks: {min: 6, max:16}}],
-                    }
-                }
-            });
-        }
-
-        lineChartSide()
         lineChartMain()
 
 

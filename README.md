@@ -4,17 +4,22 @@
 Created by: Callum Taylor 
 
 ## Features
-- Ability to buy (go long) and sell (short) stocks on the US Stock markets
-- Use a set algorithm to decide when to enter and exit trades 
-- Learn what makes a good trade to ensure maximum profitability 
+- Ability to view trading systems performace
+- Open and close invesments with the trading system
+- Create and account for investing
+- Neural Network AI trading
 
 ## Resources 
 - Alpaca Trading 
   - https://alpaca.markets/
-- Quant Connect
-  - https://www.quantconnect.com/
+- Vantage API
+  - https://rapidapi.com/alphavantage/api/alpha-vantage/  
 
 ## Technologies
 - Python 3
 - Python Requests Module
 - Alpaca Trading API
+- NeuroLab
+- PHP
+- JavaScript
+- RobThreeMFA
